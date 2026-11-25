@@ -35,6 +35,7 @@
         radial-gradient(ellipse at 85% 0%, rgba(74, 212, 115, 0.06), transparent 38%),
         linear-gradient(180deg, #07090c 0%, #0a0d12 100%);
       -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
       letter-spacing: -0.015em;
     }
     button, input, select { font: inherit; color: inherit; }
@@ -167,6 +168,7 @@
     }
     .search-input {
       width: 100%;
+      font-size: 16px;
       height: 46px;
       padding: 0 38px 0 42px;
       border: 1px solid var(--line-strong);
@@ -584,6 +586,7 @@
     .optional-label { color: var(--muted); font-size: 9px; font-weight: 500; margin-left: 4px; }
     .form-control {
       width: 100%;
+      font-size: 16px;
       height: 42px;
       border: 1px solid var(--line-strong);
       border-radius: 10px;
@@ -649,9 +652,7 @@
   <main class="app-shell" id="appShell">
     <header class="topbar">
       <div class="top-brand"><img src="icon.svg" alt="FRM"/><span>PERSONAL EQUIPMENT SYSTEM</span></div>
-      <button class="icon-btn hidden" id="homeSettings" aria-label="앱 정보" title="앱 정보">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.95-.09-.03a1.7 1.7 0 0 0-1.82.34l-.07.07h-3.4l-.02-.1a1.7 1.7 0 0 0-1.28-1.29l-.1-.02-2.94 1.7-.07-.07a1.7 1.7 0 0 0-1.88-.34l-.09.03-1.7-2.95.07-.06A1.7 1.7 0 0 0 5 15l-.02-.1-1.7-2.94.03-.09a1.7 1.7 0 0 0 .34-1.82l-.07-.07V6.58l.1-.02a1.7 1.7 0 0 0 1.29-1.28l.02-.1-1.7-2.94.07-.07a1.7 1.7 0 0 0 .34-1.88l-.03-.09 2.95-1.7.06.07A1.7 1.7 0 0 0 8.56-1.8l.1-.02h3.4l.02.1a1.7 1.7 0 0 0 1.28 1.29l.1.02 2.94-1.7.07.07a1.7 1.7 0 0 0 1.88.34l.09-.03 1.7 2.95-.07.06A1.7 1.7 0 0 0 20 3.16l.02.1 1.7 2.94-.03.09a1.7 1.7 0 0 0-.34 1.82l.07.07v3.4l-.1.02a1.7 1.7 0 0 0-1.29 1.28z" transform="translate(1.8 2.8) scale(.83)"/></svg>
-      </button>
+
     </header>
 
     <section class="view active" id="homeView" aria-label="홈">

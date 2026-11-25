@@ -239,6 +239,9 @@
     .toolbar{gap:6px;flex-shrink:0}
     .soft-btn,.primary-btn,.danger-btn{min-height:38px;padding:0 11px;border-radius:10px;font-size:11px;white-space:nowrap}
     .equipment-list{gap:8px}
+    .equipment-list-head{margin-bottom:8px}
+    .sort-select{height:32px;max-width:118px;padding:0 26px 0 10px;border:1px solid var(--line);border-radius:9px;background:#11161b;color:#cbd3d9;font-size:10px;white-space:nowrap}
+    .equipment-count-line{font-size:9px;color:var(--muted);text-align:right;margin:-2px 2px 8px;white-space:nowrap}
     .equipment-row{min-height:62px;padding:11px 12px;gap:9px;border-radius:13px;background:#11161b}
     .equipment-name{font-size:13px;white-space:nowrap}
     .equipment-sub{font-size:9px;white-space:nowrap}
@@ -290,6 +293,11 @@
       .login-btn,.edit-btn{font-size:9px;padding:0 5px}
     }
 
+
+    .equipment-count-line{font-size:9px;color:var(--muted);text-align:right;margin:-2px 2px 8px;white-space:nowrap}
+    .sort-select{height:32px;max-width:118px;padding:0 26px 0 10px;border:1px solid var(--line);border-radius:9px;background:#11161b;color:#cbd3d9;font-size:10px;white-space:nowrap}
+    .optional-label{color:#8f9ca5;font-size:9px;font-weight:500;margin-left:4px}
+    .field-hint{margin:5px 2px 0;color:#7f8b94;font-size:9px;line-height:1.35}
   </style>
 </head>
 <body>
@@ -323,14 +331,7 @@
       <div id="homeContent">
         <div class="section-head"><h3 class="section-title">장비 카테고리</h3><span class="section-meta">4 CATEGORIES</span></div>
         <div class="category-grid" id="categoryGrid"></div>
-        <div class="stats-panel">
-          <div class="stats-title">ACCOUNT OVERVIEW · 계정 관리 현황</div>
-          <div class="stats-grid">
-            <div class="stat"><div class="stat-num" id="statEquipment">5</div><div class="stat-label">등록 장비</div></div>
-            <div class="stat"><div class="stat-num" id="statAccounts">0</div><div class="stat-label">등록 계정</div></div>
-            <div class="stat warn"><div class="stat-num" id="statNoLogin">0</div><div class="stat-label">로그인 기록 없음</div></div>
-          </div>
-        </div>
+
         <div class="security-note"><span>LOCAL DEVICE STORAGE</span><strong>기기 내 저장</strong></div>
         <div class="footer-brand"><b>FRM ID/PW</b><span>INTERNAL PERSONAL TOOL · v1.1</span></div>
       </div>
@@ -341,7 +342,8 @@
         <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
         <div><h2 id="categoryTitle">MIXER</h2><p id="categorySubtitle">장비 Tag No. 목록</p></div>
       </div>
-      <div class="section-head"><h3 class="section-title">REGISTERED EQUIPMENT</h3><span class="section-meta" id="equipmentCount"></span></div>
+      <div class="section-head equipment-list-head"><h3 class="section-title">EQUIPMENT</h3><select id="equipmentSort" class="sort-select" aria-label="장비 정렬"><option value="name">이름순</option><option value="recent">최근 사용순</option></select></div>
+      <div class="equipment-count-line" id="equipmentCount"></div>
       <div class="equipment-list" id="equipmentList"></div>
       <div style="margin-top:15px"><button class="soft-btn" id="addEquipmentBtn" style="width:100%">＋ 장비 Tag No. 추가</button></div>
     </section>
@@ -402,6 +404,7 @@
   let currentCategory = 'MIXER';
   let currentEquipmentId = null;
   let expandedEquipmentId = null;
+  let equipmentSort = 'name';
   let currentView = 'homeView';
   let viewStack = [];
   let toastTimer = null;
@@ -501,10 +504,6 @@
     document.querySelectorAll('[data-category]').forEach(btn => btn.addEventListener('click', () => openCategory(btn.dataset.category)));
   }
   function renderHomeStats() {
-    $('statEquipment').textContent = state.equipment.length;
-    const accounts = state.equipment.flatMap(e => e.accounts || []);
-    $('statAccounts').textContent = accounts.length;
-    $('statNoLogin').textContent = accounts.filter(a => !a.lastLoginAt).length;
     renderCategories();
   }
   function openCategory(category) {
@@ -515,9 +514,19 @@
     navigate('categoryView');
   }
   function renderEquipmentList() {
-    const all = state.equipment.filter(e => e.category === currentCategory).sort((a,b)=>a.tagNo.localeCompare(b.tagNo,undefined,{numeric:true}));
+    const all = state.equipment.filter(e => e.category === currentCategory);
+    all.sort((a,b)=>{
+      if(equipmentSort==='recent'){
+        const aDate=(a.accounts||[])[0]?.lastLoginAt||'';
+        const bDate=(b.accounts||[])[0]?.lastLoginAt||'';
+        if(aDate!==bDate) return bDate.localeCompare(aDate);
+      }
+      return a.tagNo.localeCompare(b.tagNo,undefined,{numeric:true});
+    });
     $('categorySubtitle').textContent = currentCategory === 'MIXER' ? '기본 등록된 MIXER 장비' : '장비 Tag No. 목록';
-    $('equipmentCount').textContent = `${all.length} EQUIPMENT`;
+    $('equipmentCount').textContent = `${all.length} DEVICES`;
+    const sortControl=$('equipmentSort');
+    if(sortControl){sortControl.value=equipmentSort;sortControl.onchange=()=>{equipmentSort=sortControl.value;renderEquipmentList();};}
     const list = $('equipmentList');
     if (!all.length) {
       list.innerHTML = `<div class="empty-state">${icon('search',25)}<strong>등록된 장비가 없습니다</strong><p>장비 Tag No.를 추가해 계정 정보를 관리하세요.</p></div>`;
@@ -529,13 +538,13 @@
       return `<div class="equipment-block ${open?'is-expanded':''}">
         <button class="equipment-row" data-equipment-toggle="${escapeHTML(e.id)}" aria-expanded="${open?'true':'false'}">
           <span class="equipment-index">${String(i+1).padStart(2,'0')}</span>
-          <span><span class="equipment-name">${escapeHTML(e.tagNo)}</span><span class="equipment-sub">계정 ${accounts.length}개 · ${open?'상세 내역 접기':'눌러서 계정 내역 펼치기'}</span></span>
+          <span><span class="equipment-name">${escapeHTML(e.tagNo)}</span><span class="equipment-sub">${accounts.length?'계정 정보 등록됨':'계정 정보 미등록'} · ${open?'접기':'상세 보기'}</span></span>
           ${e.preset?'<span class="preset-label">기본</span>':''}<span class="equipment-arrow">${icon(open?'chevronUp':'chevronDown',18)}</span>
         </button>
         ${open?`<div class="equipment-expanded">
-          <div class="section-head"><h3 class="section-title">ACCOUNT DETAILS</h3><span class="section-meta">${accounts.length} ACCOUNTS</span></div>
-          ${accounts.length?accounts.map((a,idx)=>accountHTML(a,idx)).join(''):`<div class="empty-state" style="padding:19px 12px;margin-bottom:10px"><strong>등록된 계정이 없습니다</strong><p>이 장비에서 사용하는 개인 또는 공용 계정을 추가해 주세요.</p></div>`}
-          <div class="expanded-actions"><button class="primary-btn" data-add-inline="${escapeHTML(e.id)}">＋ 계정 추가</button><button class="soft-btn" data-full-detail="${escapeHTML(e.id)}">상세 화면</button></div>
+          <div class="section-head"><h3 class="section-title">ACCOUNT</h3></div>
+          ${accounts.length?accountHTML(accounts[0],0):`<div class="empty-state" style="padding:19px 12px;margin-bottom:10px"><strong>계정 정보가 없습니다</strong><p>이 장비의 계정 정보를 등록해 주세요.</p></div>`}
+          <div class="expanded-actions">${accounts.length?'':'<button class="primary-btn" data-add-inline="'+escapeHTML(e.id)+'">＋ 계정 등록</button>'}<button class="soft-btn" data-full-detail="${escapeHTML(e.id)}">상세 화면</button></div>
         </div>`:''}
       </div>`;
     }).join('');
@@ -546,7 +555,7 @@
     }));
     list.querySelectorAll('[data-add-inline]').forEach(btn=>btn.addEventListener('click',()=>{
       const equipment=state.equipment.find(e=>e.id===btn.dataset.addInline);
-      if(equipment) openAccountModal(null,equipment,renderEquipmentList);
+      if(equipment && !(equipment.accounts||[]).length) openAccountModal(null,equipment,renderEquipmentList);
     }));
     list.querySelectorAll('[data-full-detail]').forEach(btn=>btn.addEventListener('click',()=>openEquipment(btn.dataset.fullDetail)));
     all.forEach(e=>{
@@ -566,15 +575,15 @@
     $('equipmentCategoryLabel').textContent = `${category ? category.name : e.category} · EQUIPMENT DETAILS`;
     const accounts = e.accounts || [];
     $('equipmentDetail').innerHTML = `
-      <div class="detail-header"><div class="detail-kicker">EQUIPMENT TAG NO.</div><div class="detail-tag">${escapeHTML(e.tagNo)}</div><div class="detail-meta">${escapeHTML(category ? category.name : e.category)} · 등록 계정 ${accounts.length}개</div></div>
-      <div class="section-head"><h3 class="section-title">ACCOUNT DETAILS</h3><span class="section-meta">${accounts.length} ACCOUNTS</span></div>
-      ${accounts.length ? accounts.map((a,i)=>accountHTML(a,i)).join('') : `<div class="empty-state">${icon('mcs',25)}<strong>등록된 계정이 없습니다</strong><p>개인 또는 공용 계정을 추가해 주세요.</p></div>`}
-      <button class="primary-btn" id="addAccountBtn" style="width:100%;margin-top:6px">＋ 이 장비에 계정 추가</button>
+      <div class="detail-header"><div class="detail-kicker">EQUIPMENT TAG NO.</div><div class="detail-tag">${escapeHTML(e.tagNo)}</div><div class="detail-meta">${escapeHTML(category ? category.name : e.category)}</div></div>
+      <div class="section-head"><h3 class="section-title">ACCOUNT</h3></div>
+      ${accounts.length ? accountHTML(accounts[0],0) : `<div class="empty-state">${icon('mcs',25)}<strong>계정 정보가 없습니다</strong><p>이 장비의 계정 정보를 등록해 주세요.</p></div>`}
+      ${accounts.length?'':'<button class="primary-btn" id="addAccountBtn" style="width:100%;margin-top:6px">＋ 계정 등록</button>'}
       <div style="display:flex;gap:8px;margin-top:10px">
         ${e.preset ? '<button class="soft-btn" style="flex:1" disabled title="기본 등록 장비는 삭제할 수 없습니다">기본 장비</button>' : '<button class="danger-btn" id="deleteEquipmentBtn" style="flex:1">장비 삭제</button>'}
         <button class="soft-btn" id="renameEquipmentBtn" style="flex:1">Tag No. 수정</button>
       </div>`;
-    $('addAccountBtn').addEventListener('click',()=>openAccountModal(null,e,renderEquipmentDetail));
+    if($('addAccountBtn')) $('addAccountBtn').addEventListener('click',()=>openAccountModal(null,e,renderEquipmentDetail));
     if(e.preset) {
       $('renameEquipmentBtn').textContent='기본 Tag No. 고정';
       $('renameEquipmentBtn').disabled=true;
@@ -590,11 +599,11 @@
     const elapsed = elapsedDays(a.passwordChangedAt);
     const pass = a.password || '';
     return `<article class="account-card">
-      <div class="account-top"><div class="account-title">계정 ${i+1}</div><span class="type-pill ${shared?'shared':''}">${shared?'공용 계정':'개인 계정'}</span></div>
+      <div class="account-top"><div class="account-title">ACCOUNT</div><span class="type-pill ${shared?'shared':''}">${shared?'공용 계정':'개인 계정'}</span></div>
       <div class="field-line"><span class="field-label">ACCOUNT ID</span><span class="inline-actions"><span class="field-value">${escapeHTML(a.username||'미등록')}</span><button class="tiny-btn" data-action="copy-user" data-value="${escapeHTML(a.username||'')}" aria-label="ID 복사">${icon('copy',14)}</button></span></div>
       <div class="field-line"><span class="field-label">PASSWORD</span><span class="inline-actions"><span class="field-value" id="pass-${escapeHTML(a.id)}" data-value="${escapeHTML(pass)}" data-revealed="0">${pass?'••••••••':'미등록'}</span>${pass?`<button class="tiny-btn" data-action="toggle-pass" data-account="${escapeHTML(a.id)}" aria-label="비밀번호 표시">${icon('eye',14)}</button><button class="tiny-btn" data-action="copy-pass" data-value="${escapeHTML(pass)}" aria-label="비밀번호 복사">${icon('copy',14)}</button>`:''}</span></div>
       <div class="account-divider"></div>
-      <div class="date-pair"><div class="date-box"><small>비밀번호 변경일</small><b>${formatDate(a.passwordChangedAt)}</b>${elapsed!==null?`<small style="margin-top:5px">변경 후 ${elapsed}일</small>`:''}</div><div class="date-box"><small>마지막 로그인 성공</small><b>${formatDate(a.lastLoginAt)}</b></div></div>
+      <div class="date-pair"><div class="date-box"><small>비밀번호 변경일</small><b>${a.passwordChangedAt?formatDate(a.passwordChangedAt):'미입력'}</b>${elapsed!==null?`<small style="margin-top:5px">변경 후 ${elapsed}일</small>`:''}</div><div class="date-box"><small>로그인 성공일</small><b>${a.lastLoginAt?formatDate(a.lastLoginAt):'미입력'}</b></div></div>
       <div class="account-actions"><button class="login-btn" data-action="login" data-account="${escapeHTML(a.id)}">${icon('check',14)} 로그인 성공</button><button class="edit-btn" data-action="edit" data-account="${escapeHTML(a.id)}">${icon('edit',13)} 수정</button><button class="edit-btn" data-action="delete-account" data-account="${escapeHTML(a.id)}">${icon('trash',13)}</button></div>
     </article>`;
   }
@@ -674,12 +683,13 @@
       </div></div>
       <div class="form-field"><label for="accountUser">ACCOUNT ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/></div>
       <div class="form-field"><label for="accountPass">PASSWORD</label><div class="password-wrap"><input class="form-control" type="password" id="accountPass" name="password" maxlength="200" placeholder="비밀번호" value="${escapeHTML(existing?.password||'')}" autocomplete="new-password"/><button type="button" class="show-password" id="modalTogglePass" aria-label="비밀번호 표시">${icon('eye',17)}</button></div></div>
-      <div class="form-field"><label for="passwordChanged">마지막 비밀번호 변경일</label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/></div>
-      <div class="form-field"><label for="lastLogin">마지막 로그인 성공일</label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/></div>
+      <div class="form-field"><label for="passwordChanged">비밀번호 변경일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/><p class="field-hint">모르면 비워둬도 저장됩니다.</p></div>
+      <div class="form-field"><label for="lastLogin">마지막 로그인 성공일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/><p class="field-hint">로그인 성공 버튼을 누르면 자동 기록됩니다.</p></div>
       <div class="form-actions"><button type="button" class="soft-btn" id="cancelAccount">취소</button><button type="submit" class="primary-btn">저장</button></div>`,form=>{
         const data={type:form.get('type'),username:String(form.get('username')||'').trim(),password:String(form.get('password')||''),passwordChangedAt:String(form.get('passwordChangedAt')||''),lastLoginAt:String(form.get('lastLoginAt')||'')};
         if(!data.username){showToast('계정 ID를 입력해 주세요.');return;}
-        if(isEdit) Object.assign(existing,data); else e.accounts.push({id:uid('account'),...data});
+        if(!isEdit && (e.accounts||[]).length){showToast('장비마다 계정은 하나만 등록할 수 있어요.');return;}
+        if(isEdit) Object.assign(existing,data); else e.accounts=[{id:uid('account'),...data}];
         saveState(); closeModal(); (afterSave || renderEquipmentDetail)(); showToast(isEdit?'계정 정보를 수정했어요.':'계정을 추가했어요.');
       });
     $('cancelAccount').addEventListener('click',closeModal);

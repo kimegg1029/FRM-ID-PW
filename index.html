@@ -389,6 +389,9 @@
       margin-top: 2px;
       white-space: nowrap;
     }
+    .equipment-dates { display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:5px; color:var(--muted); font-size:9px; line-height:1.35; }
+    .equipment-dates span { white-space:nowrap; }
+    .equipment-dates b { color:var(--soft); font-weight:650; }
     .preset-label {
       color: var(--accent);
       border: 1px solid rgba(126, 226, 154, 0.22);
@@ -879,6 +882,7 @@
           <span class="equipment-info">
             <span class="equipment-name">${escapeHTML(e.tagNo)}</span>
             <span class="equipment-sub">${accounts.length ? escapeHTML(accounts[0].username) : '계정 미등록'}</span>
+            <span class="equipment-dates"><span><b>PW 교체</b> ${escapeHTML(formatDate(accounts[0]?.passwordChangedAt))}</span><span><b>로그인 성공</b> ${escapeHTML(formatDate(accounts[0]?.lastLoginAt))}</span></span>
           </span>
           ${e.preset ? '<span class="preset-label">기본</span>' : ''}
           <span class="equipment-arrow">${icon(open?'chevronUp':'chevronDown',17)}</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#080b0e" />
+  <meta name="theme-color" content="#07090c" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="FRM ID/PW" />
@@ -15,399 +15,705 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #080b0e;
-      --panel: #11161b;
-      --panel-2: #151c22;
-      --line: rgba(198, 211, 222, .13);
-      --line-strong: rgba(198, 211, 222, .22);
-      --text: #eef3f6;
-      --muted: #85919a;
-      --soft: #aeb8bf;
-      --green: #8eea9e;
-      --green-strong: #47d66b;
-      --amber: #e9b35d;
+      --bg: #07090c;
+      --panel: #101419;
+      --panel-2: #151b22;
+      --line: rgba(216, 228, 238, 0.11);
+      --line-strong: rgba(216, 228, 238, 0.2);
+      --text: #f3f6f8;
+      --muted: #848f99;
+      --soft: #b6c0c8;
+      --accent: #7ee29a;
+      --accent-strong: #4ad473;
       --red: #ef7676;
-      --radius: 18px;
-      --shadow: 0 18px 50px rgba(0,0,0,.34);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
     }
-    * { box-sizing: border-box; }
-    html, body { min-height: 100%; margin: 0; background: var(--bg); color: var(--text); }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { min-height: 100%; margin: 0; background: var(--bg); color: var(--text); overscroll-behavior: none; }
     body {
       background:
-        radial-gradient(ellipse at 82% 2%, rgba(57, 93, 125, .18), transparent 35%),
-        radial-gradient(ellipse at 5% 40%, rgba(50, 110, 77, .07), transparent 30%),
-        linear-gradient(180deg, #080b0e 0%, #090d11 54%, #070a0d 100%);
+        radial-gradient(ellipse at 85% 0%, rgba(74, 212, 115, 0.06), transparent 38%),
+        linear-gradient(180deg, #07090c 0%, #0a0d12 100%);
       -webkit-font-smoothing: antialiased;
-      overscroll-behavior-y: contain;
+      letter-spacing: -0.015em;
     }
-    button, input, select, textarea { font: inherit; }
-    button { color: inherit; cursor: pointer; }
-    button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
-    .app-shell { width: min(100%, 760px); min-height: 100dvh; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 18px calc(26px + env(safe-area-inset-bottom)); position: relative; }
-    .topbar { display:flex; align-items:center; justify-content:space-between; min-height:38px; margin-bottom: 14px; }
-    .top-brand { display:flex; align-items:center; gap:9px; color:var(--muted); font-size:11px; letter-spacing:.16em; font-weight:700; }
-    .top-brand img { width:27px; height:27px; object-fit:cover; border-radius:8px; border:1px solid var(--line-strong); }
-    .icon-btn { width:39px; height:39px; display:grid; place-items:center; border:1px solid var(--line); background:rgba(255,255,255,.025); border-radius:13px; color:#b7c2c9; }
-    .icon-btn:active, .category-card:active, .equipment-row:active { transform:scale(.985); }
-    .view { display:none; animation:enter .22s ease-out; }
-    .view.active { display:block; }
-    @keyframes enter { from { opacity:.35; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
-    .hero { position:relative; min-height:252px; display:flex; align-items:center; overflow:hidden; border:1px solid rgba(184,205,219,.16); border-radius:25px; padding:25px 19px; background:linear-gradient(135deg,#111820 0%,#0b1015 55%,#151d24 100%); box-shadow:var(--shadow); }
-    .hero:before { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(8,11,14,.24),transparent 38%); pointer-events:none; }
-    .hero-copy { position:relative; z-index:2; max-width:58%; text-shadow:0 2px 14px rgba(0,0,0,.55); }
-    .eyebrow { color:var(--green); font-size:10px; letter-spacing:.2em; font-weight:800; margin-bottom:11px; }
-    .hero h1 { margin:0; font-size:clamp(28px, 7vw, 42px); letter-spacing:-.055em; line-height:.98; font-weight:850; }
-    .hero h1 span { color:var(--green); }
-    .hero-sub { color:#9daab3; margin-top:13px; font-size:12px; letter-spacing:.04em; }
-    .hero-note { color:#64727c; font-size:10px; margin-top:7px; letter-spacing:.12em; }
-    .mascot-wrap { display:none; }
-    .mascot-wrap:after { display:none; }
-    .mascot-wrap img { display:none; }
-    .search-wrap { margin:17px 0 23px; position:relative; }
-    .search-wrap .search-icon { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#7e8b94; pointer-events:none; }
-    .search-input { width:100%; height:54px; padding:0 46px 0 47px; border:1px solid var(--line-strong); background:linear-gradient(135deg,rgba(255,255,255,.065),rgba(255,255,255,.025)); border-radius:16px; color:var(--text); outline:none; box-shadow:inset 0 1px 0 rgba(255,255,255,.04); }
-    .search-input::placeholder { color:#75828a; }
-    .clear-search { position:absolute; right:9px; top:8px; width:38px; height:38px; border:0; background:transparent; color:var(--muted); display:none; }
-    .section-head { display:flex; align-items:center; justify-content:space-between; margin:0 1px 12px; }
-    .section-title { display:flex; align-items:center; gap:10px; margin:0; font-size:15px; font-weight:750; letter-spacing:-.025em; }
-    .section-title:before { content:""; display:block; width:3px; height:17px; border-radius:4px; background:var(--green-strong); box-shadow:0 0 12px rgba(71,214,107,.35); }
-    .section-meta { color:#71808a; font-size:11px; }
-    .category-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-    .category-card { min-height:104px; position:relative; display:flex; align-items:center; gap:13px; text-align:left; padding:16px 14px; border:1px solid var(--line-strong); background:linear-gradient(145deg,rgba(33,42,50,.76),rgba(14,19,24,.92)); border-radius:17px; box-shadow:0 8px 22px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.035); transition:transform .15s,border-color .15s; }
-    .category-card:hover { border-color:rgba(142,234,158,.42); }
-    .cat-icon { width:41px; height:41px; flex:0 0 41px; display:grid; place-items:center; color:#b8c5ce; border:1px solid rgba(194,211,224,.14); border-radius:13px; background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.015)); }
-    .cat-copy { min-width:0; }
-    .cat-name { font-size:14px; font-weight:800; letter-spacing:.015em; }
-    .cat-desc { color:var(--muted); font-size:10px; margin-top:6px; white-space:nowrap; }
-    .cat-chevron { margin-left:auto; color:#687680; }
-    .stats-panel { margin-top:21px; padding:16px 15px 14px; border:1px solid var(--line); background:linear-gradient(120deg,rgba(25,34,41,.82),rgba(13,18,23,.8)); border-radius:18px; }
-    .stats-title { color:#c7d0d6; font-size:12px; font-weight:700; margin-bottom:13px; }
-    .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); }
-    .stat { padding:0 9px; border-right:1px solid var(--line); }
-    .stat:first-child { padding-left:0; }
-    .stat:last-child { border-right:0; padding-right:0; }
-    .stat-num { font-size:25px; font-weight:800; letter-spacing:-.04em; }
-    .stat-label { color:var(--muted); font-size:10px; margin-top:4px; }
-    .stat.warn .stat-num { color:var(--amber); }
-    .security-note { display:flex; align-items:center; justify-content:space-between; margin-top:15px; padding:13px 15px; border:1px solid var(--line); border-radius:15px; background:rgba(255,255,255,.018); color:#9daab1; font-size:11px; }
-    .security-note strong { color:var(--green); font-weight:700; }
-    .footer-brand { display:flex; justify-content:space-between; align-items:center; margin:25px 3px 0; padding:14px 0 0; border-top:1px solid rgba(255,255,255,.055); color:#53616b; font-size:9px; letter-spacing:.1em; }
-    .footer-brand b { color:#798790; font-size:10px; letter-spacing:.18em; }
-    .page-heading { display:flex; align-items:center; gap:12px; margin:9px 0 18px; }
-    .page-heading h2 { margin:0; font-size:25px; letter-spacing:-.045em; }
-    .page-heading p { margin:5px 0 0; color:var(--muted); font-size:11px; }
-    .back-btn { width:40px; height:40px; flex:0 0 40px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); color:#c1cbd1; display:grid; place-items:center; }
-    .toolbar { display:flex; gap:8px; align-items:center; }
-    .soft-btn, .primary-btn, .danger-btn { border-radius:12px; min-height:42px; padding:0 14px; border:1px solid var(--line-strong); background:rgba(255,255,255,.045); color:#d6dfe4; font-size:12px; font-weight:700; }
-    .primary-btn { background:linear-gradient(135deg,#a5f3ae,#54d878); border-color:transparent; color:#07120a; box-shadow:0 5px 16px rgba(71,214,107,.14); }
-    .danger-btn { border-color:rgba(239,118,118,.28); color:#f09b9b; background:rgba(239,118,118,.07); }
-    .equipment-list { display:flex; flex-direction:column; gap:9px; }
-    .equipment-block { border-radius:17px; overflow:hidden; }
-    .equipment-block .equipment-row { border-radius:16px; }
-    .equipment-block.is-expanded .equipment-row { border-color:rgba(142,234,158,.32); border-bottom-left-radius:0; border-bottom-right-radius:0; }
-    .equipment-expanded { padding:13px; border:1px solid rgba(142,234,158,.22); border-top:0; border-radius:0 0 16px 16px; background:linear-gradient(145deg,rgba(19,28,33,.98),rgba(10,15,19,.98)); }
-    .equipment-expanded .account-card { background:rgba(255,255,255,.025); }
-    .expanded-actions { display:flex; gap:7px; margin-top:10px; }
-    .expanded-actions button { flex:1; }
-    .equipment-row { width:100%; min-height:70px; display:flex; align-items:center; text-align:left; gap:12px; padding:13px 14px; border-radius:16px; border:1px solid var(--line); background:linear-gradient(120deg,rgba(28,37,44,.85),rgba(14,19,24,.94)); transition:transform .15s,border-color .15s; }
-    .equipment-index { width:30px; height:30px; display:grid; place-items:center; border-radius:10px; background:rgba(142,234,158,.09); color:var(--green); font-size:10px; font-weight:800; }
-    .equipment-name { font-size:15px; font-weight:800; letter-spacing:.015em; }
-    .equipment-sub { color:var(--muted); font-size:10px; margin-top:5px; }
-    .equipment-arrow { margin-left:auto; color:#74818a; }
-    .preset-label { color:#7fae89; border:1px solid rgba(142,234,158,.16); border-radius:20px; padding:4px 7px; font-size:9px; }
-    .empty-state { border:1px dashed rgba(180,198,208,.18); border-radius:17px; padding:28px 18px; text-align:center; color:var(--muted); }
-    .empty-state strong { display:block; margin:10px 0 6px; color:#d2dce1; font-size:14px; }
-    .empty-state p { margin:0; font-size:11px; line-height:1.6; }
-    .search-results { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-    .result-card { display:flex; align-items:center; gap:11px; text-align:left; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.035); padding:13px; width:100%; }
-    .result-category { min-width:76px; color:var(--green); font-size:9px; letter-spacing:.07em; font-weight:800; }
-    .result-tag { font-weight:750; font-size:14px; }
-    .result-arrow { margin-left:auto; color:#75838c; }
-    .detail-header { padding:18px; border:1px solid var(--line); border-radius:19px; background:linear-gradient(130deg,rgba(29,40,47,.88),rgba(12,17,22,.95)); margin-bottom:15px; }
-    .detail-kicker { color:var(--green); font-size:9px; font-weight:800; letter-spacing:.18em; }
-    .detail-tag { font-size:26px; font-weight:850; letter-spacing:-.04em; margin-top:7px; }
-    .detail-meta { color:var(--muted); font-size:11px; margin-top:5px; }
-    .account-card { border:1px solid var(--line); border-radius:17px; padding:15px; background:linear-gradient(135deg,rgba(26,35,42,.82),rgba(13,18,22,.92)); margin-bottom:10px; }
-    .account-top { display:flex; justify-content:space-between; align-items:center; gap:10px; }
-    .account-title { font-size:14px; font-weight:800; }
-    .type-pill { padding:5px 8px; font-size:9px; border-radius:30px; color:#a7eab1; border:1px solid rgba(142,234,158,.2); background:rgba(142,234,158,.06); }
-    .type-pill.shared { color:#9dc4ee; border-color:rgba(126,177,226,.2); background:rgba(126,177,226,.07); }
-    .field-line { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:13px; }
-    .field-label { color:var(--muted); font-size:10px; }
-    .field-value { color:#e1e8ec; font-size:12px; font-weight:650; text-align:right; overflow-wrap:anywhere; }
-    .inline-actions { display:flex; gap:6px; }
-    .tiny-btn { width:31px; height:29px; display:grid; place-items:center; border-radius:9px; border:1px solid var(--line); background:rgba(255,255,255,.035); color:#9cabb4; }
-    .account-divider { height:1px; background:var(--line); margin:14px 0 2px; }
-    .date-pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
-    .date-box { padding:10px; background:rgba(255,255,255,.028); border:1px solid rgba(255,255,255,.055); border-radius:12px; min-width:0; }
-    .date-box small { color:var(--muted); font-size:9px; display:block; }
-    .date-box b { display:block; margin-top:6px; font-size:11px; font-weight:750; overflow-wrap:anywhere; }
-    .account-actions { display:flex; gap:7px; margin-top:13px; }
-    .account-actions button { flex:1; min-width:0; }
-    .login-btn { min-height:38px; border:1px solid rgba(142,234,158,.22); border-radius:11px; color:#a1efad; background:rgba(142,234,158,.075); font-size:11px; font-weight:750; }
-    .edit-btn { min-height:38px; border:1px solid var(--line); border-radius:11px; color:#c0cbd1; background:rgba(255,255,255,.035); font-size:11px; font-weight:700; }
-    .modal-backdrop { display:none; position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.68); backdrop-filter:blur(8px); padding:18px; align-items:flex-end; justify-content:center; }
-    .modal-backdrop.open { display:flex; }
-    .modal { width:min(100%,540px); max-height:88dvh; overflow:auto; border:1px solid var(--line-strong); border-radius:22px; background:linear-gradient(145deg,#171f25,#0b1014); box-shadow:0 30px 90px rgba(0,0,0,.55); padding:19px; animation:modalUp .2s ease-out; }
-    @keyframes modalUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
-    .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:17px; }
-    .modal-head h3 { margin:0; font-size:18px; letter-spacing:-.03em; }
-    .modal-close { width:32px; height:32px; border:1px solid var(--line); border-radius:10px; background:transparent; color:#9aa7ae; }
-    .form-field { margin-bottom:13px; }
-    .form-field label { display:block; color:#9ba8b0; font-size:10px; font-weight:700; margin:0 0 7px 2px; }
-    .form-control { width:100%; height:45px; border:1px solid var(--line-strong); border-radius:12px; color:#e9eff2; background:rgba(0,0,0,.22); padding:0 12px; outline:none; }
-    .form-control::placeholder { color:#65727b; }
-    .form-control:focus { border-color:rgba(142,234,158,.55); }
-    .password-wrap { position:relative; }
-    .password-wrap .form-control { padding-right:48px; }
-    .show-password { position:absolute; right:7px; top:6px; width:34px; height:33px; border:0; background:transparent; color:#8d9aa2; }
-    .radio-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .radio-option { min-height:43px; border:1px solid var(--line); border-radius:12px; display:flex; align-items:center; justify-content:center; color:#aab6bd; font-size:11px; background:rgba(255,255,255,.025); }
-    .radio-option input { accent-color:var(--green-strong); margin-right:7px; }
-    .form-actions { display:flex; gap:8px; margin-top:19px; }
-    .form-actions button { flex:1; }
-    .toast { position:fixed; z-index:80; left:50%; bottom:calc(20px + env(safe-area-inset-bottom)); transform:translate(-50%,15px); padding:11px 15px; border:1px solid rgba(142,234,158,.18); border-radius:30px; background:rgba(20,29,33,.96); color:#dff7e3; box-shadow:var(--shadow); font-size:11px; opacity:0; pointer-events:none; transition:.2s; white-space:nowrap; }
-    .toast.show { opacity:1; transform:translate(-50%,0); }
-    .hidden { display:none !important; }
-    .no-match { text-align:center; padding:22px 10px; color:var(--muted); font-size:12px; }
-    @media (min-width:600px) {
-      .app-shell { padding-left:25px; padding-right:25px; }
-      .hero { min-height:235px; padding-left:27px; }
-      .category-card { min-height:116px; padding:18px; }
-      .cat-icon { width:46px; height:46px; flex-basis:46px; }
-      .modal-backdrop { align-items:center; }
-    }
-    @media (max-width:360px) {
-      .app-shell { padding-left:13px; padding-right:13px; }
-      .hero { min-height:184px; padding:19px 15px; }
-      .hero-copy { max-width:70%; }
-      .category-card { gap:8px; padding:12px 9px; }
-      .cat-icon { width:35px; height:35px; flex-basis:35px; }
-      .cat-name { font-size:12px; }
-      .cat-desc { font-size:9px; }
-    }
-    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
-  
-    /* iPhone-first refinement: compact, precise, single-line typography */
-    :root{
-      --bg:#07090c;--panel:#101419;--panel-2:#151a20;--line:rgba(220,230,238,.11);
-      --line-strong:rgba(220,230,238,.19);--text:#f4f6f8;--muted:#89939d;--soft:#b9c1c8;
-      --green:#c4d2c9;--green-strong:#dce5df;--radius:16px;--shadow:0 16px 42px rgba(0,0,0,.28);
-      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,"Noto Sans KR",sans-serif;
-    }
-    html{background:#07090c;overscroll-behavior:none}
-    body{background:linear-gradient(180deg,#080a0d 0%,#0b0e12 100%);letter-spacing:-.012em}
-    .app-shell{width:100%;max-width:520px;min-height:100svh;margin:0 auto;padding:calc(env(safe-area-inset-top) + 9px) 18px calc(env(safe-area-inset-bottom) + 22px)}
-    .topbar{min-height:34px;margin-bottom:13px}
-    .top-brand{gap:8px;font-size:9px;letter-spacing:.14em;white-space:nowrap}
-    .top-brand img{width:25px;height:25px;border-radius:7px}
-    .icon-btn,.back-btn{width:36px;height:36px;min-width:36px;border-radius:11px;background:#11161b;border-color:var(--line)}
-    .hero{min-height:190px;padding:22px 18px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(135deg,#10161c 0%,#0b1015 58%,#151c23 100%);box-shadow:none}
-    .hero:before{background:linear-gradient(0deg,rgba(7,9,12,.35),transparent 65%)}
-    .hero-copy{max-width:100%;width:100%;text-shadow:none}
-    .eyebrow{font-size:9px;letter-spacing:.17em;color:#aeb9c1;margin-bottom:12px;white-space:nowrap}
-    .hero h1{font-size:clamp(26px,7vw,34px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
-    .hero h1 span{color:#dce5df}
-    .hero-sub{font-size:11px;color:#c1c9cf;margin-top:10px;white-space:nowrap}
-    .hero-note{font-size:9px;color:#a3adb5;margin-top:6px;letter-spacing:.12em;white-space:nowrap}
-    .search-wrap{margin:14px 0 21px}
-    .search-input{height:49px;border-radius:13px;background:#11161b;border:1px solid var(--line);box-shadow:none;font-size:14px;padding-left:44px}
-    .section-head{margin-bottom:10px}
-    .section-title{font-size:13px;letter-spacing:-.02em;gap:8px}
-    .section-title:before{width:2px;height:14px;background:#cbd5ce;box-shadow:none}
-    .section-meta{font-size:9px;letter-spacing:.08em;white-space:nowrap}
-    .category-grid{gap:9px}
-    .category-card{min-height:84px;padding:12px 11px;gap:10px;border-radius:14px;background:#11161b;border:1px solid var(--line);box-shadow:none}
-    .category-card:hover{border-color:var(--line-strong)}
-    .cat-icon{width:34px;height:34px;flex:0 0 34px;border-radius:10px;background:#1a2026;border-color:var(--line);color:#d4dbe0}
-    .cat-name{font-size:12px;letter-spacing:.01em;white-space:nowrap}
-    .cat-desc{font-size:9px;white-space:nowrap;letter-spacing:0}
-    .cat-chevron{flex:0 0 auto}
-    .stats-panel{margin-top:17px;padding:13px 13px 12px;border-radius:14px;background:#101419;border-color:var(--line)}
-    .stats-title{font-size:11px;margin-bottom:11px}
-    .stat{padding:0 8px}
-    .stat-num{font-size:22px}
-    .stat-label{font-size:9px;white-space:nowrap}
-    .security-note{margin-top:11px;padding:11px 12px;border-radius:12px;font-size:10px;gap:8px}
-    .security-note span{white-space:nowrap}
-    .footer-brand{margin-top:19px;font-size:8px}
-    .page-heading{gap:10px;margin:6px 0 15px;min-width:0}
-    .page-heading>div{min-width:0}
-    .page-heading h2{font-size:21px;letter-spacing:-.04em;white-space:nowrap}
-    .page-heading p{font-size:10px;white-space:nowrap}
-    .toolbar{gap:6px;flex-shrink:0}
-    .soft-btn,.primary-btn,.danger-btn{min-height:38px;padding:0 11px;border-radius:10px;font-size:11px;white-space:nowrap}
-    .equipment-list{gap:8px}
-    .equipment-list-head{margin-bottom:8px}
-    .sort-select{height:32px;max-width:118px;padding:0 26px 0 10px;border:1px solid var(--line);border-radius:9px;background:#11161b;color:#cbd3d9;font-size:10px;white-space:nowrap}
-    .equipment-count-line{font-size:9px;color:var(--muted);text-align:right;margin:-2px 2px 8px;white-space:nowrap}
-    .equipment-row{min-height:62px;padding:11px 12px;gap:9px;border-radius:13px;background:#11161b}
-    .equipment-name{font-size:13px;white-space:nowrap}
-    .equipment-sub{font-size:9px;white-space:nowrap}
-    .equipment-index{width:27px;height:27px;flex:0 0 27px;border-radius:8px}
-    .preset-label{white-space:nowrap}
-    .equipment-expanded{padding:10px;border-color:var(--line);background:#0e1216}
-    .detail-header{padding:15px;border-radius:15px;background:#11161b;margin-bottom:13px}
-    .detail-kicker{font-size:8px;color:#b8c4cb}
-    .detail-tag{font-size:23px;letter-spacing:-.035em;white-space:nowrap}
-    .detail-meta{font-size:10px;white-space:nowrap}
-    .account-card{padding:12px;border-radius:14px;background:#11161b;margin-bottom:8px}
-    .account-title{font-size:12px}
-    .type-pill{font-size:8px;padding:4px 7px;white-space:nowrap}
-    .field-line{margin-top:11px;gap:8px;min-width:0}
-    .field-label{font-size:9px;white-space:nowrap}
-    .field-value{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:54vw}
-    .inline-actions{min-width:0;align-items:center}
-    .tiny-btn{width:29px;height:28px;flex:0 0 29px}
-    .date-pair{gap:7px;margin-top:10px}
-    .date-box{padding:9px;border-radius:10px}
-    .date-box small{font-size:8px;white-space:nowrap}
-    .date-box b{font-size:10px;white-space:nowrap;letter-spacing:-.025em}
-    .account-actions{gap:6px;margin-top:11px}
-    .login-btn,.edit-btn{min-height:35px;border-radius:9px;font-size:10px;white-space:nowrap;padding:0 7px}
-    .result-card{padding:11px;border-radius:12px}
-    .result-category{min-width:66px;font-size:8px;white-space:nowrap}
-    .result-tag{font-size:12px;white-space:nowrap}
-    .empty-state{padding:23px 13px;border-radius:14px}
-    .empty-state strong{font-size:12px}
-    .empty-state p{font-size:10px;line-height:1.5}
-    .modal-backdrop{padding:10px;align-items:flex-end}
-    .modal{width:100%;max-width:520px;max-height:min(86svh,720px);padding:16px;border-radius:20px 20px 15px 15px;background:#11161b}
-    .modal-head h3{font-size:16px}
-    .form-field{margin-bottom:11px}
-    .form-field label{font-size:9px}
-    .form-control{height:44px;border-radius:10px;font-size:14px}
-    .radio-option{min-height:41px;font-size:10px}
-    .form-actions{margin-top:15px}
-    .toast{font-size:10px;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis}
-    .category-card:active,.equipment-row:active,.icon-btn:active{transform:scale(.99)}
-    @media(min-width:600px){.app-shell{padding-left:22px;padding-right:22px}.modal-backdrop{align-items:center}.modal{border-radius:20px}}
-    @media(max-width:380px){
-      .app-shell{padding-left:14px;padding-right:14px}
-      .category-card{padding:10px 8px;gap:7px}
-      .cat-icon{width:30px;height:30px;flex-basis:30px}
-      .cat-name{font-size:11px}
-      .field-value{max-width:48vw}
-      .account-actions{gap:4px}
-      .login-btn,.edit-btn{font-size:9px;padding:0 5px}
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
+
+    .app-shell {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: calc(env(safe-area-inset-top) + 10px) 16px calc(env(safe-area-inset-bottom) + 20px);
+      display: flex;
+      flex-direction: column;
     }
 
-
-    .equipment-count-line{font-size:9px;color:var(--muted);text-align:right;margin:-2px 2px 8px;white-space:nowrap}
-    .sort-select{height:32px;max-width:118px;padding:0 26px 0 10px;border:1px solid var(--line);border-radius:9px;background:#11161b;color:#cbd3d9;font-size:10px;white-space:nowrap}
-    .optional-label{color:#8f9ca5;font-size:9px;font-weight:500;margin-left:4px}
-    .field-hint{margin:5px 2px 0;color:#7f8b94;font-size:9px;line-height:1.35}
-
-    /* Final alignment and form hierarchy */
-    .category-card{justify-content:flex-start;min-height:76px;padding:13px 15px}
-    .cat-copy{flex:1;min-width:0;display:flex;align-items:center}
-    .cat-name{font-size:14px;line-height:1.2;white-space:nowrap}
-    .cat-chevron{margin-left:auto}
-    .equipment-list-head{align-items:center}
-    .equipment-count-line{display:none!important}
-    .account-type-field{margin:3px 0 18px}
-    .account-type-heading{display:block!important;font-size:15px!important;line-height:1.25;font-weight:750!important;color:#edf2f5!important;margin:0 0 11px 1px!important}
-    .account-type-options{display:flex!important;flex-direction:column;gap:9px}
-    .account-type-options .radio-option{width:100%;min-height:49px;justify-content:flex-start;padding:0 15px;font-size:14px;font-weight:650;border-radius:12px}
-    .account-type-options .radio-option input{width:17px;height:17px;margin-right:11px;flex:0 0 17px}
-    .field-line{align-items:center;min-width:0}
-    .field-line>.field-label{flex:0 0 88px;text-align:left}
-    .field-line>.inline-actions{flex:1;min-width:0;justify-content:flex-end}
-    .field-value{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow-wrap:normal}
-    .account-card,.detail-header,.equipment-expanded,.modal{box-sizing:border-box}
-    .equipment-row{width:100%;text-align:left}
-    .section-head,.page-heading{min-width:0}
-    .page-heading>div{min-width:0}
-    .page-heading h2,.page-heading p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .modal{padding:20px 18px}
-    .form-field{width:100%}
-    .form-control{display:block;box-sizing:border-box;width:100%;min-width:0}
-    @media(max-width:390px){
-      .app-shell{padding-left:16px;padding-right:16px}
-      .category-grid{gap:9px}
-      .category-card{min-height:72px;padding:11px 12px}
-      .field-line>.field-label{flex-basis:76px}
-      .account-card{padding:12px}
-      .date-box{padding:9px 8px}
+    /* Topbar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 36px;
+      margin-bottom: 12px;
+    }
+    .top-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .top-brand img {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 1px solid var(--line-strong);
+      object-fit: cover;
+    }
+    .icon-btn, .back-btn {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 10px;
+      color: var(--soft);
+      transition: transform 0.12s, border-color 0.15s;
+    }
+    .icon-btn:active, .back-btn:active, .category-card:active, .equipment-row:active, .result-card:active {
+      transform: scale(0.985);
     }
 
+    /* Views */
+    .view { display: none; animation: enter 0.18s ease-out; }
+    .view.active { display: block; }
+    @keyframes enter { from { opacity: 0.4; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Hero with Samba Heroes Biomanufacturing Background */
+    .hero {
+      position: relative;
+      height: 172px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      padding: 18px;
+      background-color: #0b0f14;
+      background-image:
+        linear-gradient(90deg, #080b0f 0%, rgba(8, 11, 15, 0.9) 42%, rgba(8, 11, 15, 0.22) 100%),
+        url("hero-bg.jpg");
+      background-size: cover;
+      background-position: right center;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 58%;
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+      margin-bottom: 8px;
+      white-space: nowrap;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(26px, 7.2vw, 32px);
+      letter-spacing: -0.045em;
+      line-height: 1;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub {
+      color: #d0d7dd;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .hero-note {
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 4px;
+      letter-spacing: 0.14em;
+      white-space: nowrap;
+    }
+
+    /* Search */
+    .search-wrap { margin: 12px 0 18px; position: relative; }
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      display: grid;
+    }
+    .search-input {
+      width: 100%;
+      height: 46px;
+      padding: 0 38px 0 42px;
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      border-radius: 13px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-input::placeholder { color: #68737d; }
+    .search-input:focus { border-color: rgba(126, 226, 154, 0.5); }
+    .clear-search {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      display: none;
+    }
+
+    /* Section Headers */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 2px 10px;
+      min-width: 0;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    .section-title:before {
+      content: "";
+      width: 2.5px;
+      height: 13px;
+      border-radius: 2px;
+      background: var(--accent-strong);
+    }
+    .section-meta {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Category Grid */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+    .category-card {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 14px;
+      text-align: left;
+      transition: transform 0.12s, border-color 0.15s;
+    }
+    .category-card:hover { border-color: var(--line-strong); }
+    .cat-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      color: #d6dee4;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel-2);
+    }
+    .cat-name {
+      font-size: 13.5px;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .cat-chevron { margin-left: auto; color: #5f6b75; flex: 0 0 auto; }
+
+    /* Footer */
+    .footer-brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      color: #56626c;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+    }
+    .footer-brand b { color: #7e8b95; font-size: 10px; letter-spacing: 0.16em; }
+
+    /* Subpage Heading */
+    .page-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 14px;
+      min-width: 0;
+    }
+    .page-heading > div { min-width: 0; flex: 1; }
+    .page-heading h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .page-heading p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    /* Buttons */
+    .soft-btn, .primary-btn, .danger-btn {
+      border-radius: 11px;
+      min-height: 40px;
+      padding: 0 13px;
+      border: 1px solid var(--line-strong);
+      background: var(--panel-2);
+      color: #dde4e9;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .primary-btn {
+      background: linear-gradient(135deg, #98f0ae, #52d877);
+      border-color: transparent;
+      color: #061209;
+    }
+    .danger-btn {
+      border-color: rgba(239, 118, 118, 0.28);
+      color: #f09b9b;
+      background: rgba(239, 118, 118, 0.07);
+    }
+
+    /* Equipment List & Accordion */
+    .sort-select {
+      height: 30px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--soft);
+      font-size: 11px;
+      outline: none;
+    }
+    .equipment-list { display: flex; flex-direction: column; gap: 8px; }
+    .equipment-block { border-radius: 13px; overflow: hidden; }
+    .equipment-block.is-expanded .equipment-row {
+      border-color: rgba(126, 226, 154, 0.35);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .equipment-row {
+      width: 100%;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      text-align: left;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 13px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      transition: transform 0.12s, border-color 0.15s;
+    }
+    .equipment-index {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(126, 226, 154, 0.1);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .equipment-info { min-width: 0; flex: 1; }
+    .equipment-name {
+      display: block;
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .equipment-sub {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+    .preset-label {
+      color: var(--accent);
+      border: 1px solid rgba(126, 226, 154, 0.22);
+      border-radius: 20px;
+      padding: 2px 7px;
+      font-size: 9px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .equipment-arrow { color: #6c7882; flex: 0 0 auto; display: grid; }
+    .equipment-expanded {
+      padding: 11px;
+      border: 1px solid rgba(126, 226, 154, 0.22);
+      border-top: 0;
+      border-radius: 0 0 13px 13px;
+      background: #0c1015;
+    }
+    .expanded-actions { display: flex; gap: 7px; margin-top: 8px; }
+    .expanded-actions button { flex: 1; }
+
+    /* Search Results */
+    .search-results { display: flex; flex-direction: column; gap: 7px; }
+    .result-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 12px;
+      width: 100%;
+    }
+    .result-category {
+      min-width: 62px;
+      color: var(--accent);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .result-tag { font-weight: 750; font-size: 13.5px; white-space: nowrap; }
+    .result-arrow { margin-left: auto; color: #6c7882; display: grid; }
+
+    /* Detail & Account Card */
+    .detail-header {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--panel);
+      margin-bottom: 12px;
+    }
+    .detail-kicker { color: var(--accent); font-size: 9px; font-weight: 800; letter-spacing: 0.16em; }
+    .detail-tag { font-size: 22px; font-weight: 850; letter-spacing: -0.03em; margin-top: 4px; white-space: nowrap; }
+    .detail-meta { color: var(--muted); font-size: 10px; margin-top: 3px; white-space: nowrap; }
+
+    .account-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px;
+      background: var(--panel);
+      margin-bottom: 8px;
+    }
+    .account-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .account-title { font-size: 12px; font-weight: 800; letter-spacing: 0.03em; color: var(--soft); }
+    .type-pill {
+      padding: 3px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 20px;
+      color: #a7eab1;
+      border: 1px solid rgba(126, 226, 154, 0.22);
+      background: rgba(126, 226, 154, 0.07);
+      white-space: nowrap;
+    }
+    .type-pill.shared {
+      color: #9dc4ee;
+      border-color: rgba(126, 177, 226, 0.24);
+      background: rgba(126, 177, 226, 0.08);
+    }
+    .field-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      min-width: 0;
+    }
+    .field-label { flex: 0 0 84px; color: var(--muted); font-size: 10px; font-weight: 600; white-space: nowrap; }
+    .inline-actions { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+    .field-value {
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tiny-btn {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--soft);
+    }
+    .account-divider { height: 1px; background: var(--line); margin: 11px 0; }
+    .date-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .date-box {
+      padding: 9px 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      min-width: 0;
+    }
+    .date-box small { color: var(--muted); font-size: 9px; display: block; white-space: nowrap; }
+    .date-box b { display: block; margin-top: 4px; font-size: 11.5px; font-weight: 750; white-space: nowrap; }
+    .account-actions { display: flex; gap: 6px; margin-top: 10px; }
+    .login-btn {
+      flex: 1.4;
+      min-height: 36px;
+      border: 1px solid rgba(126, 226, 154, 0.25);
+      border-radius: 9px;
+      color: #a1efad;
+      background: rgba(126, 226, 154, 0.08);
+      font-size: 11px;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .edit-btn {
+      flex: 1;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--soft);
+      background: var(--panel-2);
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .del-icon-btn { flex: 0 0 38px; padding: 0; }
+
+    /* Empty & Modal */
+    .empty-state {
+      border: 1px dashed var(--line-strong);
+      border-radius: 14px;
+      padding: 20px 14px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .empty-state strong { display: block; margin: 6px 0 3px; color: var(--soft); font-size: 12.5px; }
+    .empty-state p { margin: 0; font-size: 10.5px; }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(6px);
+      padding: 12px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      width: 100%;
+      max-width: 500px;
+      max-height: 86svh;
+      overflow: auto;
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      background: var(--panel);
+      padding: 18px 16px;
+      animation: modalUp 0.18s ease-out;
+    }
+    @keyframes modalUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .modal-head h3 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+    .modal-close { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 9px; background: transparent; color: var(--muted); }
+    .form-field { margin-bottom: 11px; }
+    .form-field label { display: block; color: var(--soft); font-size: 10.5px; font-weight: 700; margin: 0 0 6px 2px; }
+    .optional-label { color: var(--muted); font-size: 9px; font-weight: 500; margin-left: 4px; }
+    .form-control {
+      width: 100%;
+      height: 42px;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      color: var(--text);
+      background: #090c10;
+      padding: 0 12px;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-control:focus { border-color: rgba(126, 226, 154, 0.55); }
+    .radio-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .radio-option {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 650;
+      background: #090c10;
+    }
+    .radio-option input { accent-color: var(--accent-strong); margin-right: 7px; }
+    .form-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .form-actions button { flex: 1; }
+
+    .toast {
+      position: fixed;
+      z-index: 80;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 12px);
+      padding: 10px 14px;
+      border: 1px solid rgba(126, 226, 154, 0.25);
+      border-radius: 24px;
+      background: rgba(16, 22, 27, 0.96);
+      color: #dff7e3;
+      font-size: 11px;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.18s;
+      white-space: nowrap;
+      max-width: calc(100vw - 32px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .hidden { display: none !important; }
+    .no-match { text-align: center; padding: 20px 10px; color: var(--muted); font-size: 12px; }
+
+    @media (min-width: 600px) {
+      .modal-backdrop { align-items: center; }
+    }
   </style>
 </head>
 <body>
   <main class="app-shell" id="appShell">
     <header class="topbar">
-      <div class="top-brand"><img src="icon.svg" alt="INNO, CELL-O, CHO"/><span>PERSONAL EQUIPMENT SYSTEM</span></div>
+      <div class="top-brand"><img src="icon.svg" alt="FRM"/><span>PERSONAL EQUIPMENT SYSTEM</span></div>
       <button class="icon-btn" id="homeSettings" aria-label="앱 정보" title="앱 정보">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.95-.09-.03a1.7 1.7 0 0 0-1.82.34l-.07.07h-3.4l-.02-.1a1.7 1.7 0 0 0-1.28-1.29l-.1-.02-2.94 1.7-.07-.07a1.7 1.7 0 0 0-1.88-.34l-.09.03-1.7-2.95.07-.06A1.7 1.7 0 0 0 5 15l-.02-.1-1.7-2.94.03-.09a1.7 1.7 0 0 0 .34-1.82l-.07-.07V6.58l.1-.02a1.7 1.7 0 0 0 1.29-1.28l.02-.1-1.7-2.94.07-.07a1.7 1.7 0 0 0 .34-1.88l-.03-.09 2.95-1.7.06.07A1.7 1.7 0 0 0 8.56-1.8l.1-.02h3.4l.02.1a1.7 1.7 0 0 0 1.28 1.29l.1.02 2.94-1.7.07.07a1.7 1.7 0 0 0 1.88.34l.09-.03 1.7 2.95-.07.06A1.7 1.7 0 0 0 20 3.16l.02.1 1.7 2.94-.03.09a1.7 1.7 0 0 0-.34 1.82l.07.07v3.4l-.1.02a1.7 1.7 0 0 0-1.29 1.28z" transform="translate(1.8 2.8) scale(.83)"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.95-.09-.03a1.7 1.7 0 0 0-1.82.34l-.07.07h-3.4l-.02-.1a1.7 1.7 0 0 0-1.28-1.29l-.1-.02-2.94 1.7-.07-.07a1.7 1.7 0 0 0-1.88-.34l-.09.03-1.7-2.95.07-.06A1.7 1.7 0 0 0 5 15l-.02-.1-1.7-2.94.03-.09a1.7 1.7 0 0 0 .34-1.82l-.07-.07V6.58l.1-.02a1.7 1.7 0 0 0 1.29-1.28l.02-.1-1.7-2.94.07-.07a1.7 1.7 0 0 0 .34-1.88l-.03-.09 2.95-1.7.06.07A1.7 1.7 0 0 0 8.56-1.8l.1-.02h3.4l.02.1a1.7 1.7 0 0 0 1.28 1.29l.1.02 2.94-1.7.07.07a1.7 1.7 0 0 0 1.88.34l.09-.03 1.7 2.95-.07.06A1.7 1.7 0 0 0 20 3.16l.02.1 1.7 2.94-.03.09a1.7 1.7 0 0 0-.34 1.82l.07.07v3.4l-.1.02a1.7 1.7 0 0 0-1.29 1.28z" transform="translate(1.8 2.8) scale(.83)"/></svg>
       </button>
     </header>
 
     <section class="view active" id="homeView" aria-label="홈">
       <div class="hero">
         <div class="hero-copy">
-          <div class="eyebrow">SAMBA HEROES · EQUIPMENT LAB</div>
+          <div class="eyebrow">SAMBA HEROES · BIO OPS</div>
           <h1>FRM ID<span>/</span>PW</h1>
           <div class="hero-sub">Samsung Biologics</div>
           <div class="hero-note">INNO · CELL-O · CHO</div>
         </div>
-        
       </div>
+
       <div class="search-wrap">
-        <span class="search-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></span>
-        <input class="search-input" id="globalSearch" type="search" autocomplete="off" placeholder="Tag No. 통합 검색..." aria-label="Tag No. 통합 검색"/>
+        <span class="search-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></span>
+        <input class="search-input" id="globalSearch" type="search" autocomplete="off" placeholder="Tag No. 검색" aria-label="Tag No. 검색"/>
         <button class="clear-search" id="clearSearch" aria-label="검색어 지우기">✕</button>
       </div>
+
       <div id="searchPanel" class="hidden">
         <div class="section-head"><h3 class="section-title">검색 결과</h3><span class="section-meta" id="searchCount"></span></div>
         <div class="search-results" id="searchResults"></div>
       </div>
+
       <div id="homeContent">
         <div class="section-head"><h3 class="section-title">장비 카테고리</h3><span class="section-meta">4 CATEGORIES</span></div>
         <div class="category-grid" id="categoryGrid"></div>
-
-        <div class="security-note"><span>LOCAL DEVICE STORAGE</span><strong>기기 내 저장</strong></div>
-        <div class="footer-brand"><b>FRM ID/PW</b><span>INTERNAL PERSONAL TOOL · v1.1</span></div>
+        <div class="footer-brand"><b>FRM ID/PW</b><span>INTERNAL TOOL · v1.8</span></div>
       </div>
     </section>
 
     <section class="view" id="categoryView" aria-label="카테고리 장비 목록">
       <div class="page-heading">
-        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
-        <div><h2 id="categoryTitle">MIXER</h2><p id="categorySubtitle">장비 Tag No. 목록</p></div>
+        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div><h2 id="categoryTitle">MIXER</h2><p id="categorySubtitle">장비 목록</p></div>
       </div>
-      <div class="section-head equipment-list-head"><h3 class="section-title">EQUIPMENT</h3><select id="equipmentSort" class="sort-select" aria-label="장비 정렬"><option value="name">이름순</option><option value="recent">최근 사용순</option></select></div>
+      <div class="section-head">
+        <h3 class="section-title">EQUIPMENT</h3>
+        <select id="equipmentSort" class="sort-select" aria-label="장비 정렬">
+          <option value="name">이름순</option>
+          <option value="recent">최근 사용순</option>
+        </select>
+      </div>
       <div class="equipment-list" id="equipmentList"></div>
-      <div style="margin-top:15px"><button class="soft-btn" id="addEquipmentBtn" style="width:100%">＋ 장비 Tag No. 추가</button></div>
+      <div style="margin-top:12px"><button class="soft-btn" id="addEquipmentBtn" style="width:100%">＋ 장비 Tag No. 추가</button></div>
     </section>
 
     <section class="view" id="equipmentView" aria-label="장비 상세">
       <div class="page-heading">
-        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
-        <div><h2>장비 상세정보</h2><p id="equipmentCategoryLabel">EQUIPMENT DETAILS</p></div>
+        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div><h2>장비 상세</h2><p id="equipmentCategoryLabel">EQUIPMENT DETAILS</p></div>
       </div>
       <div id="equipmentDetail"></div>
     </section>
 
     <section class="view" id="settingsView" aria-label="앱 정보">
       <div class="page-heading">
-        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
-        <div><h2>앱 정보</h2><p>FRM ID/PW · SETTINGS</p></div>
+        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div><h2>앱 정보</h2><p>SYSTEM INFO</p></div>
       </div>
       <div class="detail-header">
-        <div class="detail-kicker">ABOUT THIS APP</div><div class="detail-tag">FRM ID/PW</div>
-        <div class="detail-meta">개인 장비 계정 관리 도구 · 별도 앱 비밀번호 없음</div>
+        <div class="detail-kicker">SAMBA HEROES · BIO OPS</div>
+        <div class="detail-tag">FRM ID/PW</div>
+        <div class="detail-meta">개인용 장비 계정 관리 도구</div>
       </div>
       <div class="account-card">
-        <div class="account-title">저장 방식 안내</div>
-        <p style="font-size:11px;line-height:1.75;color:#9ca9b1;margin:10px 0 0">현재 데이터는 이 브라우저의 기기 내부 저장소(Local Storage)에 보관됩니다. 서버로 전송하지 않지만, 별도 암호화 저장소는 아닙니다. 실제 사내 비밀번호를 입력하기 전에 회사 보안 정책을 확인해 주세요. 브라우저 데이터 삭제 또는 기기 변경 시 데이터가 사라질 수 있습니다.</p>
-      </div>
-      <div class="account-card">
-        <div class="account-title">현재 구현 항목</div>
-        <div class="field-line"><span class="field-label">MIXER 기본 Tag No.</span><span class="field-value">5개</span></div>
-        <div class="field-line"><span class="field-label">통합 검색</span><span class="field-value">전체 카테고리</span></div>
-        <div class="field-line"><span class="field-label">뒤로 가기</span><span class="field-value">화면 왼쪽 가장자리 스와이프</span></div>
-        <div class="field-line"><span class="field-label">계정 인증</span><span class="field-value">별도 인증 없음</span></div>
+        <div class="account-title">시스템 사양</div>
+        <div class="field-line"><span class="field-label">저장 위치</span><span class="field-value">기기 내 LocalStorage (비암호화)</span></div>
+        <div class="field-line"><span class="field-label">MIXER 기본</span><span class="field-value">5개 장비</span></div>
+        <div class="field-line"><span class="field-label">제스처</span><span class="field-value">좌측 끝 스와이프 뒤로가기</span></div>
+        <div class="field-line"><span class="field-label">캐시 버전</span><span class="field-value">v1-8</span></div>
       </div>
     </section>
   </main>
@@ -425,13 +731,11 @@
   'use strict';
   const STORE_KEY = 'frm_idpw_data_v1';
   const CATEGORIES = [
-    { id:'MIXER', name:'MIXER', icon:'mixer', desc:'혼합 장비' },
-    { id:'MCS', name:'MCS', icon:'mcs', desc:'장비 목록 보기' },
-    { id:'VAL', name:'VAL', icon:'val', desc:'장비 목록 보기' },
-    { id:'ETC', name:'ETC/공용', icon:'etc', desc:'기타 및 공용 장비' }
+    { id:'MIXER', name:'MIXER', icon:'mixer' },
+    { id:'MCS', name:'MCS', icon:'mcs' },
+    { id:'VAL', name:'VAL', icon:'val' },
+    { id:'ETC', name:'ETC/공용', icon:'etc' }
   ];
-  // MIXER의 기본 Tag No.는 사전 등록 장비로 관리한다.
-  // 추후 공용 장비 계정과 MIXER 계정의 사전 등록 데이터는 이 초기 데이터 영역에 추가할 수 있다.
   const MIXER_PRESETS = ['SMU-3012','SMU-3008','SMU-3009','SMU-3010','SMU-3052'];
   let state = loadState();
   let currentCategory = 'MIXER';
@@ -446,10 +750,7 @@
   function uid(prefix='id') { return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`; }
   function localDate() {
     const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth()+1).padStart(2,'0');
-    const day = String(d.getDate()).padStart(2,'0');
-    return `${y}-${m}-${day}`;
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   }
   function safeParse(raw) { try { return JSON.parse(raw); } catch { return null; } }
   function loadState() {
@@ -465,14 +766,14 @@
   }
   function saveState() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
-    catch (e) { showToast('저장 공간에 문제가 있어 저장하지 못했어요.'); }
-    renderHomeStats();
+    catch { showToast('저장 공간 오류'); }
+    renderCategories();
   }
   function escapeHTML(value='') {
     return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   }
   function formatDate(date) {
-    if (!date) return '기록 없음';
+    if (!date) return '미입력';
     const [y,m,d] = date.split('-');
     return y && m && d ? `${y}.${m}.${d}` : date;
   }
@@ -485,9 +786,9 @@
   }
   function showToast(message) {
     const el = $('toast'); el.textContent = message; el.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2100);
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
   }
-  function icon(name, size=21) {
+  function icon(name, size=19) {
     const paths = {
       mixer:'<path d="M7 4h10l1 4-2 2v9H8v-9L6 8l1-4Z"/><path d="M8 8h8M10 12h4M10 16h4M5 20h14"/>',
       mcs:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M7 12l3-3 3 2 4-4"/>',
@@ -498,14 +799,11 @@
       chevronUp:'<path d="m6 15 6-6 6 6"/>',
       search:'<circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/>',
       copy:'<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h3"/>',
-      eye:'<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/>',
       edit:'<path d="m4 16.5-.8 4.3 4.3-.8L19 8.5 15.5 5 4 16.5Z"/><path d="m13.8 6.7 3.5 3.5"/>',
-      plus:'<path d="M12 5v14M5 12h14"/>',
-      arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>',
       check:'<path d="m5 12 4 4L19 6"/>',
       trash:'<path d="M4 7h16M10 11v6m4-6v6M6 7l1 14h10l1-14M9 7V4h6v3"/>'
     };
-    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.chevron}</svg>`;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.chevron}</svg>`;
   }
   function navigate(viewId, push=true) {
     if (push && currentView !== viewId) viewStack.push(currentView);
@@ -529,14 +827,12 @@
   $('homeSettings').addEventListener('click', () => navigate('settingsView'));
 
   function renderCategories() {
-    $('categoryGrid').innerHTML = CATEGORIES.map(c => {
-      return `<button class="category-card" data-category="${c.id}"><span class="cat-icon">${icon(c.icon,23)}</span><span class="cat-copy"><span class="cat-name">${c.name}</span></span><span class="cat-chevron">${icon('chevron',17)}</span></button>`;
-    }).join('');
+    $('categoryGrid').innerHTML = CATEGORIES.map(c =>
+      `<button class="category-card" data-category="${c.id}"><span class="cat-icon">${icon(c.icon,20)}</span><span class="cat-name">${c.name}</span><span class="cat-chevron">${icon('chevron',16)}</span></button>`
+    ).join('');
     document.querySelectorAll('[data-category]').forEach(btn => btn.addEventListener('click', () => openCategory(btn.dataset.category)));
   }
-  function renderHomeStats() {
-    renderCategories();
-  }
+
   function openCategory(category) {
     currentCategory = category;
     const meta = CATEGORIES.find(c => c.id === category);
@@ -544,237 +840,294 @@
     renderEquipmentList();
     navigate('categoryView');
   }
+
   function renderEquipmentList() {
     const all = state.equipment.filter(e => e.category === currentCategory);
-    all.sort((a,b)=>{
-      if(equipmentSort==='recent'){
-        const aDate=(a.accounts||[])[0]?.lastLoginAt||'';
-        const bDate=(b.accounts||[])[0]?.lastLoginAt||'';
-        if(aDate!==bDate) return bDate.localeCompare(aDate);
+    all.sort((a,b) => {
+      if (equipmentSort === 'recent') {
+        const aDate = (a.accounts||[])[0]?.lastLoginAt || '';
+        const bDate = (b.accounts||[])[0]?.lastLoginAt || '';
+        if (aDate !== bDate) return bDate.localeCompare(aDate);
       }
-      return a.tagNo.localeCompare(b.tagNo,undefined,{numeric:true});
+      return a.tagNo.localeCompare(b.tagNo, undefined, { numeric:true });
     });
-    $('categorySubtitle').textContent = currentCategory === 'MIXER' ? '기본 등록된 MIXER 장비' : '장비 Tag No. 목록';
-    const sortControl=$('equipmentSort');
-    if(sortControl){sortControl.value=equipmentSort;sortControl.onchange=()=>{equipmentSort=sortControl.value;renderEquipmentList();};}
+    $('categorySubtitle').textContent = currentCategory === 'MIXER' ? 'PRESET EQUIPMENT' : 'EQUIPMENT LIST';
+    const sortControl = $('equipmentSort');
+    if (sortControl) {
+      sortControl.value = equipmentSort;
+      sortControl.onchange = () => { equipmentSort = sortControl.value; renderEquipmentList(); };
+    }
     const list = $('equipmentList');
     if (!all.length) {
-      list.innerHTML = `<div class="empty-state">${icon('search',25)}<strong>등록된 장비가 없습니다</strong><p>장비 Tag No.를 추가해 계정 정보를 관리하세요.</p></div>`;
+      list.innerHTML = `<div class="empty-state">${icon('search',22)}<strong>등록된 장비가 없습니다</strong><p>하단 버튼으로 Tag No.를 추가하세요.</p></div>`;
       return;
     }
-    list.innerHTML = all.map((e,i)=>{
+    list.innerHTML = all.map((e,i) => {
       const open = expandedEquipmentId === e.id;
       const accounts = e.accounts || [];
       return `<div class="equipment-block ${open?'is-expanded':''}">
         <button class="equipment-row" data-equipment-toggle="${escapeHTML(e.id)}" aria-expanded="${open?'true':'false'}">
           <span class="equipment-index">${String(i+1).padStart(2,'0')}</span>
-          <span><span class="equipment-name">${escapeHTML(e.tagNo)}</span><span class="equipment-sub">${accounts.length?'계정 정보 등록됨':'계정 정보 미등록'} · ${open?'접기':'상세 보기'}</span></span>
-          ${e.preset?'<span class="preset-label">기본</span>':''}<span class="equipment-arrow">${icon(open?'chevronUp':'chevronDown',18)}</span>
+          <span class="equipment-info">
+            <span class="equipment-name">${escapeHTML(e.tagNo)}</span>
+            <span class="equipment-sub">${accounts.length ? escapeHTML(accounts[0].username) : '계정 미등록'}</span>
+          </span>
+          ${e.preset ? '<span class="preset-label">기본</span>' : ''}
+          <span class="equipment-arrow">${icon(open?'chevronUp':'chevronDown',17)}</span>
         </button>
-        ${open?`<div class="equipment-expanded">
-          <div class="section-head"><h3 class="section-title">ACCOUNT</h3></div>
-          ${accounts.length?accountHTML(accounts[0],0):`<div class="empty-state" style="padding:19px 12px;margin-bottom:10px"><strong>계정 정보가 없습니다</strong><p>이 장비의 계정 정보를 등록해 주세요.</p></div>`}
-          <div class="expanded-actions">${accounts.length?'':'<button class="primary-btn" data-add-inline="'+escapeHTML(e.id)+'">＋ 계정 등록</button>'}<button class="soft-btn" data-full-detail="${escapeHTML(e.id)}">상세 화면</button></div>
-        </div>`:''}
+        ${open ? `<div class="equipment-expanded">
+          ${accounts.length ? accountHTML(accounts[0]) : `<div class="empty-state" style="padding:14px 10px"><strong>계정 미등록</strong></div>`}
+          <div class="expanded-actions">
+            ${accounts.length ? '' : `<button class="primary-btn" data-add-inline="${escapeHTML(e.id)}">＋ 계정 등록</button>`}
+            <button class="soft-btn" data-full-detail="${escapeHTML(e.id)}">상세 관리</button>
+          </div>
+        </div>` : ''}
       </div>`;
     }).join('');
-    list.querySelectorAll('[data-equipment-toggle]').forEach(btn=>btn.addEventListener('click',()=>{
-      const id=btn.dataset.equipmentToggle;
-      expandedEquipmentId=expandedEquipmentId===id?null:id;
+
+    list.querySelectorAll('[data-equipment-toggle]').forEach(btn => btn.addEventListener('click', () => {
+      const id = btn.dataset.equipmentToggle;
+      expandedEquipmentId = expandedEquipmentId === id ? null : id;
       renderEquipmentList();
     }));
-    list.querySelectorAll('[data-add-inline]').forEach(btn=>btn.addEventListener('click',()=>{
-      const equipment=state.equipment.find(e=>e.id===btn.dataset.addInline);
-      if(equipment && !(equipment.accounts||[]).length) openAccountModal(null,equipment,renderEquipmentList);
+    list.querySelectorAll('[data-add-inline]').forEach(btn => btn.addEventListener('click', () => {
+      const equipment = state.equipment.find(e => e.id === btn.dataset.addInline);
+      if (equipment && !(equipment.accounts||[]).length) openAccountModal(null, equipment, renderEquipmentList);
     }));
-    list.querySelectorAll('[data-full-detail]').forEach(btn=>btn.addEventListener('click',()=>openEquipment(btn.dataset.fullDetail)));
-    all.forEach(e=>{
-      const block=list.querySelector(`[data-equipment-toggle="${CSS.escape(e.id)}"]`)?.parentElement;
-      if(block && expandedEquipmentId===e.id) bindAccountActions(block,e,renderEquipmentList);
+    list.querySelectorAll('[data-full-detail]').forEach(btn => btn.addEventListener('click', () => openEquipment(btn.dataset.fullDetail)));
+    all.forEach(e => {
+      const block = list.querySelector(`[data-equipment-toggle="${CSS.escape(e.id)}"]`)?.parentElement;
+      if (block && expandedEquipmentId === e.id) bindAccountActions(block, e, renderEquipmentList);
     });
   }
+
   function openEquipment(id) {
     currentEquipmentId = id;
     renderEquipmentDetail();
     navigate('equipmentView');
   }
-  function getCurrentEquipment() { return state.equipment.find(e=>e.id===currentEquipmentId); }
+  function getCurrentEquipment() { return state.equipment.find(e => e.id === currentEquipmentId); }
+
   function renderEquipmentDetail() {
     const e = getCurrentEquipment(); if (!e) { goBack(); return; }
-    const category = CATEGORIES.find(c=>c.id===e.category);
-    $('equipmentCategoryLabel').textContent = `${category ? category.name : e.category} · EQUIPMENT DETAILS`;
+    const category = CATEGORIES.find(c => c.id === e.category);
+    $('equipmentCategoryLabel').textContent = `${category ? category.name : e.category}`;
     const accounts = e.accounts || [];
     $('equipmentDetail').innerHTML = `
-      <div class="detail-header"><div class="detail-kicker">EQUIPMENT TAG NO.</div><div class="detail-tag">${escapeHTML(e.tagNo)}</div><div class="detail-meta">${escapeHTML(category ? category.name : e.category)}</div></div>
-      <div class="section-head"><h3 class="section-title">ACCOUNT</h3></div>
-      ${accounts.length ? accountHTML(accounts[0],0) : `<div class="empty-state">${icon('mcs',25)}<strong>계정 정보가 없습니다</strong><p>이 장비의 계정 정보를 등록해 주세요.</p></div>`}
-      ${accounts.length?'':'<button class="primary-btn" id="addAccountBtn" style="width:100%;margin-top:6px">＋ 계정 등록</button>'}
-      <div style="display:flex;gap:8px;margin-top:10px">
-        ${e.preset ? '<button class="soft-btn" style="flex:1" disabled title="기본 등록 장비는 삭제할 수 없습니다">기본 장비</button>' : '<button class="danger-btn" id="deleteEquipmentBtn" style="flex:1">장비 삭제</button>'}
-        <button class="soft-btn" id="renameEquipmentBtn" style="flex:1">Tag No. 수정</button>
+      <div class="detail-header">
+        <div class="detail-kicker">TAG NO.</div>
+        <div class="detail-tag">${escapeHTML(e.tagNo)}</div>
+        <div class="detail-meta">${escapeHTML(category ? category.name : e.category)}</div>
+      </div>
+      ${accounts.length ? accountHTML(accounts[0]) : `<div class="empty-state" style="margin-bottom:10px"><strong>등록된 계정이 없습니다</strong></div>`}
+      ${accounts.length ? '' : '<button class="primary-btn" id="addAccountBtn" style="width:100%;margin-bottom:8px">＋ 계정 등록</button>'}
+      <div style="display:flex;gap:8px">
+        ${e.preset ? '<button class="soft-btn" style="flex:1;opacity:.5" disabled>기본 장비 고정</button>' : '<button class="danger-btn" id="deleteEquipmentBtn" style="flex:1">장비 삭제</button>'}
+        ${e.preset ? '' : '<button class="soft-btn" id="renameEquipmentBtn" style="flex:1">Tag No. 수정</button>'}
       </div>`;
-    if($('addAccountBtn')) $('addAccountBtn').addEventListener('click',()=>openAccountModal(null,e,renderEquipmentDetail));
-    if(e.preset) {
-      $('renameEquipmentBtn').textContent='기본 Tag No. 고정';
-      $('renameEquipmentBtn').disabled=true;
-      $('renameEquipmentBtn').style.opacity='.55';
-    } else {
-      $('renameEquipmentBtn').addEventListener('click',()=>openEquipmentModal(e));
-    }
-    if (!e.preset) $('deleteEquipmentBtn').addEventListener('click',()=>deleteEquipment(e.id));
-    bindAccountActions($('equipmentDetail'),e,renderEquipmentDetail);
+    if ($('addAccountBtn')) $('addAccountBtn').addEventListener('click', () => openAccountModal(null, e, renderEquipmentDetail));
+    if ($('renameEquipmentBtn')) $('renameEquipmentBtn').addEventListener('click', () => openEquipmentModal(e));
+    if ($('deleteEquipmentBtn')) $('deleteEquipmentBtn').addEventListener('click', () => deleteEquipment(e.id));
+    bindAccountActions($('equipmentDetail'), e, renderEquipmentDetail);
   }
-  function accountHTML(a,i) {
+
+  function accountHTML(a) {
     const shared = a.type === 'SHARED';
     const elapsed = elapsedDays(a.passwordChangedAt);
     const pass = a.password || '';
     return `<article class="account-card">
-      <div class="account-top"><div class="account-title">ACCOUNT</div><span class="type-pill ${shared?'shared':''}">${shared?'공용 계정':'개인 계정'}</span></div>
-      <div class="field-line"><span class="field-label">ACCOUNT ID</span><span class="inline-actions"><span class="field-value">${escapeHTML(a.username||'미등록')}</span><button class="tiny-btn" data-action="copy-user" data-value="${escapeHTML(a.username||'')}" aria-label="ID 복사">${icon('copy',14)}</button></span></div>
-      <div class="field-line"><span class="field-label">PASSWORD</span><span class="inline-actions"><span class="field-value" id="pass-${escapeHTML(a.id)}" data-value="${escapeHTML(pass)}">${escapeHTML(pass||'미등록')}</span>${pass?`<button class="tiny-btn" data-action="copy-pass" data-value="${escapeHTML(pass)}" aria-label="비밀번호 복사">${icon('copy',14)}</button>`:''}</span></div>
+      <div class="account-top">
+        <div class="account-title">ACCOUNT</div>
+        <span class="type-pill ${shared?'shared':''}">${shared?'공용 계정':'개인 계정'}</span>
+      </div>
+      <div class="field-line">
+        <span class="field-label">ID</span>
+        <span class="inline-actions">
+          <span class="field-value">${escapeHTML(a.username||'미등록')}</span>
+          <button class="tiny-btn" data-action="copy-user" data-value="${escapeHTML(a.username||'')}" aria-label="ID 복사">${icon('copy',14)}</button>
+        </span>
+      </div>
+      <div class="field-line">
+        <span class="field-label">PASSWORD</span>
+        <span class="inline-actions">
+          <span class="field-value">${escapeHTML(pass||'미등록')}</span>
+          ${pass ? `<button class="tiny-btn" data-action="copy-pass" data-value="${escapeHTML(pass)}" aria-label="비밀번호 복사">${icon('copy',14)}</button>` : ''}
+        </span>
+      </div>
       <div class="account-divider"></div>
-      <div class="date-pair"><div class="date-box"><small>비밀번호 변경일</small><b>${a.passwordChangedAt?formatDate(a.passwordChangedAt):'미입력'}</b>${elapsed!==null?`<small style="margin-top:5px">변경 후 ${elapsed}일</small>`:''}</div><div class="date-box"><small>로그인 성공일</small><b>${a.lastLoginAt?formatDate(a.lastLoginAt):'미입력'}</b></div></div>
-      <div class="account-actions"><button class="login-btn" data-action="login" data-account="${escapeHTML(a.id)}">${icon('check',14)} 로그인 성공</button><button class="edit-btn" data-action="edit" data-account="${escapeHTML(a.id)}">${icon('edit',13)} 수정</button><button class="edit-btn" data-action="delete-account" data-account="${escapeHTML(a.id)}">${icon('trash',13)}</button></div>
+      <div class="date-pair">
+        <div class="date-box">
+          <small>비밀번호 변경일${elapsed!==null ? ` (D+${elapsed})` : ''}</small>
+          <b>${formatDate(a.passwordChangedAt)}</b>
+        </div>
+        <div class="date-box">
+          <small>최근 로그인</small>
+          <b>${formatDate(a.lastLoginAt)}</b>
+        </div>
+      </div>
+      <div class="account-actions">
+        <button class="login-btn" data-action="login" data-account="${escapeHTML(a.id)}">${icon('check',14)} 로그인 성공</button>
+        <button class="edit-btn" data-action="edit" data-account="${escapeHTML(a.id)}">${icon('edit',13)} 수정</button>
+        <button class="edit-btn del-icon-btn" data-action="delete-account" data-account="${escapeHTML(a.id)}" aria-label="계정 삭제">${icon('trash',13)}</button>
+      </div>
     </article>`;
   }
-  function bindAccountActions(container,equipment,rerender) {
-    container.querySelectorAll('[data-action="login"]').forEach(btn=>btn.addEventListener('click',()=>{
-      const account=equipment.accounts.find(a=>a.id===btn.dataset.account); if(!account) return;
-      account.lastLoginAt=localDate(); saveState(); rerender(); showToast('마지막 로그인 성공일을 오늘로 갱신했어요.');
+
+  function bindAccountActions(container, equipment, rerender) {
+    container.querySelectorAll('[data-action="login"]').forEach(btn => btn.addEventListener('click', () => {
+      const account = equipment.accounts.find(a => a.id === btn.dataset.account); if (!account) return;
+      account.lastLoginAt = localDate(); saveState(); rerender(); showToast('로그인 성공일 기록 완료');
     }));
-    container.querySelectorAll('[data-action="edit"]').forEach(btn=>btn.addEventListener('click',()=>{
-      const account=equipment.accounts.find(a=>a.id===btn.dataset.account); if(account) openAccountModal(account,equipment,rerender);
+    container.querySelectorAll('[data-action="edit"]').forEach(btn => btn.addEventListener('click', () => {
+      const account = equipment.accounts.find(a => a.id === btn.dataset.account); if (account) openAccountModal(account, equipment, rerender);
     }));
-    container.querySelectorAll('[data-action="delete-account"]').forEach(btn=>btn.addEventListener('click',()=>deleteAccount(btn.dataset.account,equipment,rerender)));
-    container.querySelectorAll('[data-action="copy-user"]').forEach(btn=>btn.addEventListener('click',()=>copyText(btn.dataset.value,'ID를 복사했어요.')));
-    container.querySelectorAll('[data-action="copy-pass"]').forEach(btn=>btn.addEventListener('click',()=>copyText(btn.dataset.value,'비밀번호를 복사했어요.')));
-    container.querySelectorAll('[data-action="toggle-pass"]').forEach(btn=>btn.addEventListener('click',()=>{
-      const el=$('pass-'+btn.dataset.account); if(!el) return;
-      const reveal=el.dataset.revealed!=='1'; el.dataset.revealed=reveal?'1':'0';
-      el.textContent=reveal?el.dataset.value:'••••••••';
-    }));
+    container.querySelectorAll('[data-action="delete-account"]').forEach(btn => btn.addEventListener('click', () => deleteAccount(btn.dataset.account, equipment, rerender)));
+    container.querySelectorAll('[data-action="copy-user"]').forEach(btn => btn.addEventListener('click', () => copyText(btn.dataset.value, 'ID 복사됨')));
+    container.querySelectorAll('[data-action="copy-pass"]').forEach(btn => btn.addEventListener('click', () => copyText(btn.dataset.value, '비밀번호 복사됨')));
   }
+
   async function copyText(value, message) {
-    if (!value) { showToast('복사할 내용이 없습니다.'); return; }
+    if (!value) { showToast('복사할 내용 없음'); return; }
     try {
       if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(value);
       else {
-        const field = document.createElement('textarea'); field.value=value; field.style.position='fixed'; field.style.opacity='0'; document.body.appendChild(field); field.select(); document.execCommand('copy'); field.remove();
+        const field = document.createElement('textarea');
+        field.value = value; field.style.position = 'fixed'; field.style.opacity = '0';
+        document.body.appendChild(field); field.select(); document.execCommand('copy'); field.remove();
       }
       showToast(message);
-    } catch { showToast('복사하지 못했어요.'); }
+    } catch { showToast('복사 실패'); }
   }
   function deleteEquipment(id) {
-    const e = state.equipment.find(x=>x.id===id); if(!e || e.preset) return;
-    if (!confirm(`${e.tagNo} 장비와 등록된 계정을 삭제할까요?`)) return;
-    state.equipment = state.equipment.filter(x=>x.id!==id); saveState(); showToast('장비를 삭제했어요.'); goBack(); renderEquipmentList();
+    const e = state.equipment.find(x => x.id === id); if (!e || e.preset) return;
+    if (!confirm(`${e.tagNo} 장비를 삭제할까요?`)) return;
+    state.equipment = state.equipment.filter(x => x.id !== id);
+    saveState(); showToast('장비 삭제됨'); goBack(); renderEquipmentList();
   }
-  function deleteAccount(id,equipment=getCurrentEquipment(),rerender=renderEquipmentDetail) {
-    if(!equipment) return;
-    if(!confirm('이 계정을 삭제할까요?')) return;
-    equipment.accounts=equipment.accounts.filter(a=>a.id!==id); saveState(); rerender(); showToast('계정을 삭제했어요.');
+
+  function deleteAccount(id, equipment=getCurrentEquipment(), rerender=renderEquipmentDetail) {
+    if (!equipment || !confirm('계정을 삭제할까요?')) return;
+    equipment.accounts = equipment.accounts.filter(a => a.id !== id);
+    saveState(); rerender(); showToast('계정 삭제됨');
   }
+
   function openModal(title, content, onSubmit) {
     $('modalTitle').textContent = title;
     $('modalForm').innerHTML = content;
     $('modalBackdrop').classList.add('open');
-    $('modalForm').onsubmit = (ev)=>{ ev.preventDefault(); onSubmit(new FormData($('modalForm'))); };
-    setTimeout(()=>{ const first=$('modalForm').querySelector('input:not([type=hidden]),select'); if(first) first.focus(); },50);
+    $('modalForm').onsubmit = (ev) => { ev.preventDefault(); onSubmit(new FormData($('modalForm'))); };
+    setTimeout(() => { const first = $('modalForm').querySelector('input:not([type=hidden]):not([type=radio]),select'); if (first) first.focus(); }, 40);
   }
-  function closeModal() { $('modalBackdrop').classList.remove('open'); $('modalForm').onsubmit=null; }
-  $('modalClose').addEventListener('click',closeModal);
-  $('modalBackdrop').addEventListener('click',ev=>{ if(ev.target===$('modalBackdrop')) closeModal(); });
+  function closeModal() { $('modalBackdrop').classList.remove('open'); $('modalForm').onsubmit = null; }
+  $('modalClose').addEventListener('click', closeModal);
+  $('modalBackdrop').addEventListener('click', ev => { if (ev.target === $('modalBackdrop')) closeModal(); });
+
   function openEquipmentModal(existing=null) {
     const isEdit = !!existing;
-    const options = CATEGORIES.map(c=>`<option value="${c.id}" ${existing?.category===c.id?'selected':''}>${c.name}</option>`).join('');
-    openModal(isEdit?'Tag No. 수정':'장비 추가',`
+    const options = CATEGORIES.map(c => `<option value="${c.id}" ${(existing?.category || currentCategory) === c.id ? 'selected' : ''}>${c.name}</option>`).join('');
+    openModal(isEdit ? 'Tag No. 수정' : '장비 추가', `
       <div class="form-field"><label for="equipmentCategory">카테고리</label><select class="form-control" id="equipmentCategory" name="category">${options}</select></div>
-      <div class="form-field"><label for="equipmentTag">장비 Tag No.</label><input class="form-control" id="equipmentTag" name="tagNo" required maxlength="40" placeholder="예: MCS-1001" value="${escapeHTML(existing?.tagNo||'')}" autocomplete="off"/></div>
-      <div class="form-actions"><button type="button" class="soft-btn" id="cancelEquipment">취소</button><button type="submit" class="primary-btn">${isEdit?'변경 저장':'장비 등록'}</button></div>`,form=>{
-        const category=form.get('category'); const tagNo=String(form.get('tagNo')||'').trim().toUpperCase();
-        if(!tagNo) return;
-        const duplicate=state.equipment.some(e=>e.category===category && e.tagNo.toLowerCase()===tagNo.toLowerCase() && e.id!==existing?.id);
-        if(duplicate){ showToast('같은 카테고리에 이미 등록된 Tag No.입니다.'); return; }
-        if(isEdit){ existing.tagNo=tagNo; existing.category=category; }
-        else state.equipment.push({id:uid('equipment'),category,tagNo,preset:false,accounts:[]});
+      <div class="form-field"><label for="equipmentTag">Tag No.</label><input class="form-control" id="equipmentTag" name="tagNo" required maxlength="40" placeholder="예: MCS-1001" value="${escapeHTML(existing?.tagNo||'')}" autocomplete="off"/></div>
+      <div class="form-actions"><button type="button" class="soft-btn" id="cancelEquipment">취소</button><button type="submit" class="primary-btn">저장</button></div>`, form => {
+        const category = form.get('category');
+        const tagNo = String(form.get('tagNo')||'').trim().toUpperCase();
+        if (!tagNo) return;
+        const duplicate = state.equipment.some(e => e.category === category && e.tagNo.toLowerCase() === tagNo.toLowerCase() && e.id !== existing?.id);
+        if (duplicate) { showToast('이미 등록된 Tag No.'); return; }
+        if (isEdit) { existing.tagNo = tagNo; existing.category = category; }
+        else state.equipment.push({ id:uid('equipment'), category, tagNo, preset:false, accounts:[] });
         saveState(); closeModal(); renderEquipmentList();
-        if(isEdit){ renderEquipmentDetail(); }
-        showToast(isEdit?'Tag No.를 수정했어요.':'장비를 등록했어요.');
+        if (isEdit) renderEquipmentDetail();
+        showToast(isEdit ? '수정 완료' : '등록 완료');
       });
-    $('cancelEquipment').addEventListener('click',closeModal);
+    $('cancelEquipment').addEventListener('click', closeModal);
   }
-  function openAccountModal(existing=null,targetEquipment=null,afterSave=null) {
-    const e=targetEquipment || getCurrentEquipment(); if(!e) return;
-    const isEdit=!!existing;
-    openModal(isEdit?'계정 수정':'계정 추가',`
-      <div class="form-field account-type-field"><label class="account-type-heading">계정 선택</label><div class="radio-row account-type-options">
-        <label class="radio-option"><input type="radio" name="type" value="PERSONAL" ${!existing||existing.type==='PERSONAL'?'checked':''}/>개인 계정</label>
-        <label class="radio-option"><input type="radio" name="type" value="SHARED" ${existing?.type==='SHARED'?'checked':''}/>공용 계정</label>
-      </div></div>
-      <div class="form-field"><label for="accountUser">ACCOUNT ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/></div>
+
+  function openAccountModal(existing=null, targetEquipment=null, afterSave=null) {
+    const e = targetEquipment || getCurrentEquipment(); if (!e) return;
+    const isEdit = !!existing;
+    openModal(isEdit ? '계정 수정' : '계정 등록', `
+      <div class="form-field">
+        <div class="radio-row">
+          <label class="radio-option"><input type="radio" name="type" value="PERSONAL" ${!existing||existing.type==='PERSONAL'?'checked':''}/>개인 계정</label>
+          <label class="radio-option"><input type="radio" name="type" value="SHARED" ${existing?.type==='SHARED'?'checked':''}/>공용 계정</label>
+        </div>
+      </div>
+      <div class="form-field"><label for="accountUser">ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/></div>
       <div class="form-field"><label for="accountPass">PASSWORD</label><input class="form-control" type="text" id="accountPass" name="password" maxlength="200" placeholder="비밀번호" value="${escapeHTML(existing?.password||'')}" autocomplete="off"/></div>
-      <div class="form-field"><label for="passwordChanged">비밀번호 변경일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/><p class="field-hint">모르면 비워둬도 저장됩니다.</p></div>
-      <div class="form-field"><label for="lastLogin">마지막 로그인 성공일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/><p class="field-hint">로그인 성공 버튼을 누르면 자동 기록됩니다.</p></div>
-      <div class="form-actions"><button type="button" class="soft-btn" id="cancelAccount">취소</button><button type="submit" class="primary-btn">저장</button></div>`,form=>{
-        const data={type:form.get('type'),username:String(form.get('username')||'').trim(),password:String(form.get('password')||''),passwordChangedAt:String(form.get('passwordChangedAt')||''),lastLoginAt:String(form.get('lastLoginAt')||'')};
-        if(!data.username){showToast('계정 ID를 입력해 주세요.');return;}
-        if(!isEdit && (e.accounts||[]).length){showToast('장비마다 계정은 하나만 등록할 수 있어요.');return;}
-        if(isEdit) Object.assign(existing,data); else e.accounts=[{id:uid('account'),...data}];
-        saveState(); closeModal(); (afterSave || renderEquipmentDetail)(); showToast(isEdit?'계정 정보를 수정했어요.':'계정을 추가했어요.');
+      <div class="form-field"><label for="passwordChanged">비밀번호 변경일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/></div>
+      <div class="form-field"><label for="lastLogin">최근 로그인 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/></div>
+      <div class="form-actions"><button type="button" class="soft-btn" id="cancelAccount">취소</button><button type="submit" class="primary-btn">저장</button></div>`, form => {
+        const data = {
+          type: form.get('type'),
+          username: String(form.get('username')||'').trim(),
+          password: String(form.get('password')||''),
+          passwordChangedAt: String(form.get('passwordChangedAt')||''),
+          lastLoginAt: String(form.get('lastLoginAt')||'')
+        };
+        if (!data.username) { showToast('ID를 입력하세요'); return; }
+        if (!isEdit && (e.accounts||[]).length) { showToast('장비당 1개 계정만 등록 가능'); return; }
+        if (isEdit) Object.assign(existing, data);
+        else e.accounts = [{ id:uid('account'), ...data }];
+        saveState(); closeModal(); (afterSave || renderEquipmentDetail)();
+        showToast(isEdit ? '수정 완료' : '등록 완료');
       });
-    $('cancelAccount').addEventListener('click',closeModal);
-    $('modalTogglePass').addEventListener('click',()=>{const input=$('accountPass');input.type=input.type==='password'?'text':'password';});
+    $('cancelAccount').addEventListener('click', closeModal);
   }
-  $('addEquipmentBtn').addEventListener('click',()=>openEquipmentModal());
+  $('addEquipmentBtn').addEventListener('click', () => openEquipmentModal());
 
   function runSearch(query) {
-    const q=query.trim().toLowerCase();
-    const panel=$('searchPanel'), home=$('homeContent');
-    $('clearSearch').style.display=q?'block':'none';
-    panel.classList.toggle('hidden',!q); home.classList.toggle('hidden',!!q);
-    if(!q) return;
-    const results=state.equipment.filter(e=>e.tagNo.toLowerCase().includes(q)||e.category.toLowerCase().includes(q)|| (CATEGORIES.find(c=>c.id===e.category)?.name||'').toLowerCase().includes(q));
-    $('searchCount').textContent=`${results.length} RESULTS`;
-    $('searchResults').innerHTML=results.length?results.sort((a,b)=>a.tagNo.localeCompare(b.tagNo,undefined,{numeric:true})).map(e=>{
-      const cat=CATEGORIES.find(c=>c.id===e.category);
-      return `<button class="result-card" data-result="${escapeHTML(e.id)}"><span class="result-category">${escapeHTML(cat?cat.name:e.category)}</span><span class="result-tag">${escapeHTML(e.tagNo)}</span><span class="result-arrow">${icon('chevron',17)}</span></button>`;
-    }).join(''):'<div class="no-match">검색 결과가 없습니다.</div>';
-    $('searchResults').querySelectorAll('[data-result]').forEach(btn=>btn.addEventListener('click',()=>openEquipmentFromSearch(btn.dataset.result)));
+    const q = query.trim().toLowerCase();
+    const panel = $('searchPanel'), home = $('homeContent');
+    $('clearSearch').style.display = q ? 'block' : 'none';
+    panel.classList.toggle('hidden', !q); home.classList.toggle('hidden', !!q);
+    if (!q) return;
+    const results = state.equipment.filter(e =>
+      e.tagNo.toLowerCase().includes(q) ||
+      e.category.toLowerCase().includes(q) ||
+      (CATEGORIES.find(c => c.id === e.category)?.name || '').toLowerCase().includes(q)
+    );
+    $('searchCount').textContent = `${results.length} RESULTS`;
+    $('searchResults').innerHTML = results.length
+      ? results.sort((a,b) => a.tagNo.localeCompare(b.tagNo, undefined, { numeric:true })).map(e => {
+          const cat = CATEGORIES.find(c => c.id === e.category);
+          return `<button class="result-card" data-result="${escapeHTML(e.id)}"><span class="result-category">${escapeHTML(cat ? cat.name : e.category)}</span><span class="result-tag">${escapeHTML(e.tagNo)}</span><span class="result-arrow">${icon('chevron',16)}</span></button>`;
+        }).join('')
+      : '<div class="no-match">일치하는 장비가 없습니다.</div>';
+    $('searchResults').querySelectorAll('[data-result]').forEach(btn => btn.addEventListener('click', () => openEquipmentFromSearch(btn.dataset.result)));
   }
+
   function openEquipmentFromSearch(id) {
-    const e=state.equipment.find(x=>x.id===id); if(!e) return;
-    currentCategory=e.category; currentEquipmentId=id;
-    viewStack=[]; renderEquipmentDetail(); navigate('equipmentView',false);
+    const e = state.equipment.find(x => x.id === id); if (!e) return;
+    currentCategory = e.category; currentEquipmentId = id;
+    viewStack = []; renderEquipmentDetail(); navigate('equipmentView', false);
   }
-  $('globalSearch').addEventListener('input',ev=>runSearch(ev.target.value));
-  $('clearSearch').addEventListener('click',()=>{$('globalSearch').value='';runSearch('');$('globalSearch').focus();});
+  $('globalSearch').addEventListener('input', ev => runSearch(ev.target.value));
+  $('clearSearch').addEventListener('click', () => { $('globalSearch').value = ''; runSearch(''); $('globalSearch').focus(); });
 
-  // iOS/Android PWA에서 화면 왼쪽 가장자리에서 오른쪽으로 밀면 이전 화면으로 이동한다.
-  let touchStart=null;
-  document.addEventListener('touchstart',ev=>{
-    if(ev.touches.length!==1 || $('modalBackdrop').classList.contains('open')) return;
-    const t=ev.touches[0];
-    if(t.clientX<=30) touchStart={x:t.clientX,y:t.clientY,time:Date.now()};
-  },{passive:true});
-  document.addEventListener('touchend',ev=>{
-    if(!touchStart) return;
-    const t=ev.changedTouches[0]; const dx=t.clientX-touchStart.x; const dy=Math.abs(t.clientY-touchStart.y);
-    if(dx>72 && dy<85 && Date.now()-touchStart.time<800) goBack();
-    touchStart=null;
-  },{passive:true});
-  document.addEventListener('keydown',ev=>{ if(ev.key==='Escape'){ if($('modalBackdrop').classList.contains('open')) closeModal(); else goBack(); } });
+  let touchStart = null;
+  document.addEventListener('touchstart', ev => {
+    if (ev.touches.length !== 1 || $('modalBackdrop').classList.contains('open')) return;
+    const t = ev.touches[0];
+    if (t.clientX <= 30) touchStart = { x:t.clientX, y:t.clientY, time:Date.now() };
+  }, { passive:true });
+  document.addEventListener('touchend', ev => {
+    if (!touchStart) return;
+    const t = ev.changedTouches[0];
+    if (t.clientX - touchStart.x > 72 && Math.abs(t.clientY - touchStart.y) < 85 && Date.now() - touchStart.time < 800) goBack();
+    touchStart = null;
+  }, { passive:true });
+  document.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape') { if ($('modalBackdrop').classList.contains('open')) closeModal(); else goBack(); }
+  });
 
-  renderHomeStats();
-  // PWA update policy: check the worker on every app launch and activate new
-  // versions immediately. Existing user data stays in localStorage.
+  renderCategories();
+
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     const hadController = !!navigator.serviceWorker.controller;
     let reloadingForUpdate = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (hadController && !reloadingForUpdate) {
-        reloadingForUpdate = true;
-        window.location.reload();
-      }
+      if (hadController && !reloadingForUpdate) { reloadingForUpdate = true; window.location.reload(); }
     });
     window.addEventListener('load', async () => {
       try {
@@ -785,9 +1138,7 @@
           const worker = registration.installing;
           if (!worker) return;
           worker.addEventListener('statechange', () => {
-            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-              worker.postMessage('SKIP_WAITING');
-            }
+            if (worker.state === 'installed' && navigator.serviceWorker.controller) worker.postMessage('SKIP_WAITING');
           });
         });
       } catch (err) {

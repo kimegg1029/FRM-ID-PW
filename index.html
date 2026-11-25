@@ -298,6 +298,40 @@
     .sort-select{height:32px;max-width:118px;padding:0 26px 0 10px;border:1px solid var(--line);border-radius:9px;background:#11161b;color:#cbd3d9;font-size:10px;white-space:nowrap}
     .optional-label{color:#8f9ca5;font-size:9px;font-weight:500;margin-left:4px}
     .field-hint{margin:5px 2px 0;color:#7f8b94;font-size:9px;line-height:1.35}
+
+    /* Final alignment and form hierarchy */
+    .category-card{justify-content:flex-start;min-height:76px;padding:13px 15px}
+    .cat-copy{flex:1;min-width:0;display:flex;align-items:center}
+    .cat-name{font-size:14px;line-height:1.2;white-space:nowrap}
+    .cat-chevron{margin-left:auto}
+    .equipment-list-head{align-items:center}
+    .equipment-count-line{display:none!important}
+    .account-type-field{margin:3px 0 18px}
+    .account-type-heading{display:block!important;font-size:15px!important;line-height:1.25;font-weight:750!important;color:#edf2f5!important;margin:0 0 11px 1px!important}
+    .account-type-options{display:flex!important;flex-direction:column;gap:9px}
+    .account-type-options .radio-option{width:100%;min-height:49px;justify-content:flex-start;padding:0 15px;font-size:14px;font-weight:650;border-radius:12px}
+    .account-type-options .radio-option input{width:17px;height:17px;margin-right:11px;flex:0 0 17px}
+    .field-line{align-items:center;min-width:0}
+    .field-line>.field-label{flex:0 0 88px;text-align:left}
+    .field-line>.inline-actions{flex:1;min-width:0;justify-content:flex-end}
+    .field-value{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow-wrap:normal}
+    .account-card,.detail-header,.equipment-expanded,.modal{box-sizing:border-box}
+    .equipment-row{width:100%;text-align:left}
+    .section-head,.page-heading{min-width:0}
+    .page-heading>div{min-width:0}
+    .page-heading h2,.page-heading p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .modal{padding:20px 18px}
+    .form-field{width:100%}
+    .form-control{display:block;box-sizing:border-box;width:100%;min-width:0}
+    @media(max-width:390px){
+      .app-shell{padding-left:16px;padding-right:16px}
+      .category-grid{gap:9px}
+      .category-card{min-height:72px;padding:11px 12px}
+      .field-line>.field-label{flex-basis:76px}
+      .account-card{padding:12px}
+      .date-box{padding:9px 8px}
+    }
+
   </style>
 </head>
 <body>
@@ -343,7 +377,6 @@
         <div><h2 id="categoryTitle">MIXER</h2><p id="categorySubtitle">장비 Tag No. 목록</p></div>
       </div>
       <div class="section-head equipment-list-head"><h3 class="section-title">EQUIPMENT</h3><select id="equipmentSort" class="sort-select" aria-label="장비 정렬"><option value="name">이름순</option><option value="recent">최근 사용순</option></select></div>
-      <div class="equipment-count-line" id="equipmentCount"></div>
       <div class="equipment-list" id="equipmentList"></div>
       <div style="margin-top:15px"><button class="soft-btn" id="addEquipmentBtn" style="width:100%">＋ 장비 Tag No. 추가</button></div>
     </section>
@@ -497,9 +530,7 @@
 
   function renderCategories() {
     $('categoryGrid').innerHTML = CATEGORIES.map(c => {
-      const count = state.equipment.filter(e => e.category === c.id).length;
-      const desc = c.id === 'MIXER' ? `${count}개 사전 등록` : `${count}개 장비`;
-      return `<button class="category-card" data-category="${c.id}"><span class="cat-icon">${icon(c.icon,23)}</span><span class="cat-copy"><span class="cat-name">${c.name}</span><span class="cat-desc">${desc}</span></span><span class="cat-chevron">${icon('chevron',17)}</span></button>`;
+      return `<button class="category-card" data-category="${c.id}"><span class="cat-icon">${icon(c.icon,23)}</span><span class="cat-copy"><span class="cat-name">${c.name}</span></span><span class="cat-chevron">${icon('chevron',17)}</span></button>`;
     }).join('');
     document.querySelectorAll('[data-category]').forEach(btn => btn.addEventListener('click', () => openCategory(btn.dataset.category)));
   }
@@ -524,7 +555,6 @@
       return a.tagNo.localeCompare(b.tagNo,undefined,{numeric:true});
     });
     $('categorySubtitle').textContent = currentCategory === 'MIXER' ? '기본 등록된 MIXER 장비' : '장비 Tag No. 목록';
-    $('equipmentCount').textContent = `${all.length} DEVICES`;
     const sortControl=$('equipmentSort');
     if(sortControl){sortControl.value=equipmentSort;sortControl.onchange=()=>{equipmentSort=sortControl.value;renderEquipmentList();};}
     const list = $('equipmentList');
@@ -601,7 +631,7 @@
     return `<article class="account-card">
       <div class="account-top"><div class="account-title">ACCOUNT</div><span class="type-pill ${shared?'shared':''}">${shared?'공용 계정':'개인 계정'}</span></div>
       <div class="field-line"><span class="field-label">ACCOUNT ID</span><span class="inline-actions"><span class="field-value">${escapeHTML(a.username||'미등록')}</span><button class="tiny-btn" data-action="copy-user" data-value="${escapeHTML(a.username||'')}" aria-label="ID 복사">${icon('copy',14)}</button></span></div>
-      <div class="field-line"><span class="field-label">PASSWORD</span><span class="inline-actions"><span class="field-value" id="pass-${escapeHTML(a.id)}" data-value="${escapeHTML(pass)}" data-revealed="0">${pass?'••••••••':'미등록'}</span>${pass?`<button class="tiny-btn" data-action="toggle-pass" data-account="${escapeHTML(a.id)}" aria-label="비밀번호 표시">${icon('eye',14)}</button><button class="tiny-btn" data-action="copy-pass" data-value="${escapeHTML(pass)}" aria-label="비밀번호 복사">${icon('copy',14)}</button>`:''}</span></div>
+      <div class="field-line"><span class="field-label">PASSWORD</span><span class="inline-actions"><span class="field-value" id="pass-${escapeHTML(a.id)}" data-value="${escapeHTML(pass)}">${escapeHTML(pass||'미등록')}</span>${pass?`<button class="tiny-btn" data-action="copy-pass" data-value="${escapeHTML(pass)}" aria-label="비밀번호 복사">${icon('copy',14)}</button>`:''}</span></div>
       <div class="account-divider"></div>
       <div class="date-pair"><div class="date-box"><small>비밀번호 변경일</small><b>${a.passwordChangedAt?formatDate(a.passwordChangedAt):'미입력'}</b>${elapsed!==null?`<small style="margin-top:5px">변경 후 ${elapsed}일</small>`:''}</div><div class="date-box"><small>로그인 성공일</small><b>${a.lastLoginAt?formatDate(a.lastLoginAt):'미입력'}</b></div></div>
       <div class="account-actions"><button class="login-btn" data-action="login" data-account="${escapeHTML(a.id)}">${icon('check',14)} 로그인 성공</button><button class="edit-btn" data-action="edit" data-account="${escapeHTML(a.id)}">${icon('edit',13)} 수정</button><button class="edit-btn" data-action="delete-account" data-account="${escapeHTML(a.id)}">${icon('trash',13)}</button></div>
@@ -677,12 +707,12 @@
     const e=targetEquipment || getCurrentEquipment(); if(!e) return;
     const isEdit=!!existing;
     openModal(isEdit?'계정 수정':'계정 추가',`
-      <div class="form-field"><label>계정 구분</label><div class="radio-row">
+      <div class="form-field account-type-field"><label class="account-type-heading">계정 선택</label><div class="radio-row account-type-options">
         <label class="radio-option"><input type="radio" name="type" value="PERSONAL" ${!existing||existing.type==='PERSONAL'?'checked':''}/>개인 계정</label>
         <label class="radio-option"><input type="radio" name="type" value="SHARED" ${existing?.type==='SHARED'?'checked':''}/>공용 계정</label>
       </div></div>
       <div class="form-field"><label for="accountUser">ACCOUNT ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/></div>
-      <div class="form-field"><label for="accountPass">PASSWORD</label><div class="password-wrap"><input class="form-control" type="password" id="accountPass" name="password" maxlength="200" placeholder="비밀번호" value="${escapeHTML(existing?.password||'')}" autocomplete="new-password"/><button type="button" class="show-password" id="modalTogglePass" aria-label="비밀번호 표시">${icon('eye',17)}</button></div></div>
+      <div class="form-field"><label for="accountPass">PASSWORD</label><input class="form-control" type="text" id="accountPass" name="password" maxlength="200" placeholder="비밀번호" value="${escapeHTML(existing?.password||'')}" autocomplete="off"/></div>
       <div class="form-field"><label for="passwordChanged">비밀번호 변경일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/><p class="field-hint">모르면 비워둬도 저장됩니다.</p></div>
       <div class="form-field"><label for="lastLogin">마지막 로그인 성공일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/><p class="field-hint">로그인 성공 버튼을 누르면 자동 기록됩니다.</p></div>
       <div class="form-actions"><button type="button" class="soft-btn" id="cancelAccount">취소</button><button type="submit" class="primary-btn">저장</button></div>`,form=>{

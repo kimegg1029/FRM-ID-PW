@@ -392,6 +392,15 @@
     .equipment-dates { display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:5px; color:var(--muted); font-size:9px; line-height:1.35; }
     .equipment-dates span { white-space:nowrap; }
     .equipment-dates b { color:var(--soft); font-weight:650; }
+    .equipment-dates .password-expired-text,
+    .equipment-dates .password-expired-text b {
+      color:#ff4b55;
+      animation: passwordExpiryBlink 1.15s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .equipment-dates .password-expired-text,
+      .equipment-dates .password-expired-text b { animation:none; color:#ff4b55; }
+    }
     .preset-label {
       color: var(--accent);
       border: 1px solid rgba(126, 226, 154, 0.22);
@@ -895,7 +904,7 @@
           <span class="equipment-info">
             <span class="equipment-name">${escapeHTML(e.tagNo)}</span>
             <span class="equipment-sub">${accounts.length ? escapeHTML(accounts[0].username) : '계정 미등록'}</span>
-            <span class="equipment-dates"><span><b>PW 교체</b> ${escapeHTML(formatDate(accounts[0]?.passwordChangedAt))}</span><span><b>로그인 성공</b> ${escapeHTML(formatDate(accounts[0]?.lastLoginAt))}</span></span>
+            <span class="equipment-dates"><span class="${elapsedDays(accounts[0]?.passwordChangedAt)!==null && elapsedDays(accounts[0]?.passwordChangedAt)>=90 ? 'password-expired-text' : ''}"><b>PW 교체</b> ${escapeHTML(formatDate(accounts[0]?.passwordChangedAt))}</span><span><b>로그인 성공</b> ${escapeHTML(formatDate(accounts[0]?.lastLoginAt))}</span></span>
           </span>
           ${e.preset ? '<span class="preset-label">기본</span>' : ''}
           <span class="equipment-arrow">${icon(open?'chevronUp':'chevronDown',17)}</span>

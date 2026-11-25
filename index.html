@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
   <meta name="theme-color" content="#07090c" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -29,7 +29,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { min-height: 100%; margin: 0; background: var(--bg); color: var(--text); overscroll-behavior: none; }
+    html, body { width: 100%; height: 100%; min-height: 100%; margin: 0; background: var(--bg); color: var(--text); overscroll-behavior: none; }
     body {
       background:
         radial-gradient(ellipse at 85% 0%, rgba(74, 212, 115, 0.06), transparent 38%),
@@ -44,9 +44,9 @@
     .app-shell {
       width: 100%;
       max-width: 500px;
-      min-height: 100svh;
+      min-height: 100vh;
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 10px) 16px calc(env(safe-area-inset-bottom) + 20px);
+      padding: calc(env(safe-area-inset-top) + 28px) 16px calc(env(safe-area-inset-bottom) + 24px);
       display: flex;
       flex-direction: column;
     }
@@ -93,9 +93,12 @@
     }
 
     /* Views */
-    .view { display: none; animation: enter 0.18s ease-out; }
-    .view.active { display: block; }
-    @keyframes enter { from { opacity: 0.4; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .view { display: none; transform-origin: 50% 50%; backface-visibility: hidden; }
+    .view.active { display: block; animation: viewEnter 360ms cubic-bezier(.2,.75,.25,1) both; }
+    .view.active.back-transition { animation: viewBack 360ms cubic-bezier(.2,.75,.25,1) both; }
+    @keyframes viewEnter { from { opacity: .35; transform: perspective(900px) translate3d(22px,5px,-28px) rotateY(-7deg) scale(.975); filter: blur(1px); } to { opacity: 1; transform: perspective(900px) translate3d(0,0,0) rotateY(0) scale(1); filter: blur(0); } }
+    @keyframes viewBack { from { opacity: .35; transform: perspective(900px) translate3d(-22px,5px,-28px) rotateY(7deg) scale(.975); filter: blur(1px); } to { opacity: 1; transform: perspective(900px) translate3d(0,0,0) rotateY(0) scale(1); filter: blur(0); } }
+    @media (prefers-reduced-motion: reduce) { .view.active, .view.active.back-transition { animation-duration: 1ms; } }
 
     /* Hero with Samba Heroes Biomanufacturing Background */
     .hero {
@@ -591,6 +594,10 @@
       outline: none;
     }
     .form-control:focus { border-color: rgba(126, 226, 154, 0.55); }
+    .recent-id-wrap { margin-top: 8px; }
+    .recent-id-wrap small { display:block; color:var(--muted); font-size:10px; margin:0 0 6px 2px; }
+    .recent-id-list { display:flex; flex-wrap:wrap; gap:6px; }
+    .recent-id-chip { border:1px solid rgba(126,226,154,.2); background:rgba(126,226,154,.06); color:#bcecc6; border-radius:18px; padding:6px 10px; font-size:11px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .radio-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .radio-option {
       min-height: 42px;
@@ -630,6 +637,7 @@
     }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
     .hidden { display: none !important; }
+    #homeSettings { display:none !important; }
     .no-match { text-align: center; padding: 20px 10px; color: var(--muted); font-size: 12px; }
 
     @media (min-width: 600px) {
@@ -641,7 +649,7 @@
   <main class="app-shell" id="appShell">
     <header class="topbar">
       <div class="top-brand"><img src="icon.svg" alt="FRM"/><span>PERSONAL EQUIPMENT SYSTEM</span></div>
-      <button class="icon-btn" id="homeSettings" aria-label="앱 정보" title="앱 정보">
+      <button class="icon-btn hidden" id="homeSettings" aria-label="앱 정보" title="앱 정보">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.95-.09-.03a1.7 1.7 0 0 0-1.82.34l-.07.07h-3.4l-.02-.1a1.7 1.7 0 0 0-1.28-1.29l-.1-.02-2.94 1.7-.07-.07a1.7 1.7 0 0 0-1.88-.34l-.09.03-1.7-2.95.07-.06A1.7 1.7 0 0 0 5 15l-.02-.1-1.7-2.94.03-.09a1.7 1.7 0 0 0 .34-1.82l-.07-.07V6.58l.1-.02a1.7 1.7 0 0 0 1.29-1.28l.02-.1-1.7-2.94.07-.07a1.7 1.7 0 0 0 .34-1.88l-.03-.09 2.95-1.7.06.07A1.7 1.7 0 0 0 8.56-1.8l.1-.02h3.4l.02.1a1.7 1.7 0 0 0 1.28 1.29l.1.02 2.94-1.7.07.07a1.7 1.7 0 0 0 1.88.34l.09-.03 1.7 2.95-.07.06A1.7 1.7 0 0 0 20 3.16l.02.1 1.7 2.94-.03.09a1.7 1.7 0 0 0-.34 1.82l.07.07v3.4l-.1.02a1.7 1.7 0 0 0-1.29 1.28z" transform="translate(1.8 2.8) scale(.83)"/></svg>
       </button>
     </header>
@@ -649,10 +657,8 @@
     <section class="view active" id="homeView" aria-label="홈">
       <div class="hero">
         <div class="hero-copy">
-          <div class="eyebrow">SAMBA HEROES · BIO OPS</div>
-          <h1>FRM ID<span>/</span>PW</h1>
+          <h1>FRM ID<span> / </span>PW</h1>
           <div class="hero-sub">Samsung Biologics</div>
-          <div class="hero-note">INNO · CELL-O · CHO</div>
         </div>
       </div>
 
@@ -698,24 +704,7 @@
       <div id="equipmentDetail"></div>
     </section>
 
-    <section class="view" id="settingsView" aria-label="앱 정보">
-      <div class="page-heading">
-        <button class="back-btn" data-back aria-label="뒤로 가기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
-        <div><h2>앱 정보</h2><p>SYSTEM INFO</p></div>
-      </div>
-      <div class="detail-header">
-        <div class="detail-kicker">SAMBA HEROES · BIO OPS</div>
-        <div class="detail-tag">FRM ID/PW</div>
-        <div class="detail-meta">개인용 장비 계정 관리 도구</div>
-      </div>
-      <div class="account-card">
-        <div class="account-title">시스템 사양</div>
-        <div class="field-line"><span class="field-label">저장 위치</span><span class="field-value">기기 내 LocalStorage (비암호화)</span></div>
-        <div class="field-line"><span class="field-label">MIXER 기본</span><span class="field-value">5개 장비</span></div>
-        <div class="field-line"><span class="field-label">제스처</span><span class="field-value">좌측 끝 스와이프 뒤로가기</span></div>
-        <div class="field-line"><span class="field-label">캐시 버전</span><span class="field-value">v1-8</span></div>
-      </div>
-    </section>
+
   </main>
 
   <div class="modal-backdrop" id="modalBackdrop" role="presentation">
@@ -737,6 +726,12 @@
     { id:'ETC', name:'ETC/공용', icon:'etc' }
   ];
   const MIXER_PRESETS = ['SMU-3012','SMU-3008','SMU-3009','SMU-3010','SMU-3052'];
+  const MCS_PRESETS = ['MCS'];
+  const ETC_PRESETS = ['SC','Ph','DFB','P1 8F'];
+  const RECENT_IDS_KEY = 'frm_idpw_recent_ids_v1';
+  let recentIds = safeParse(localStorage.getItem(RECENT_IDS_KEY) || '[]');
+  if (!Array.isArray(recentIds)) recentIds = [];
+  recentIds = recentIds.filter(v => typeof v === 'string' && v.trim()).slice(0,8);
   let state = loadState();
   let currentCategory = 'MIXER';
   let currentEquipmentId = null;
@@ -756,13 +751,26 @@
   function loadState() {
     const stored = safeParse(localStorage.getItem(STORE_KEY) || 'null');
     let data = stored && Array.isArray(stored.equipment) ? stored : { equipment:[] };
-    for (const tag of MIXER_PRESETS) {
-      const exists = data.equipment.some(e => e.category === 'MIXER' && e.tagNo === tag);
-      if (!exists) data.equipment.push({ id:`preset-${tag.toLowerCase()}`, category:'MIXER', tagNo:tag, preset:true, accounts:[] });
+    const presetGroups = [
+      ['MIXER', MIXER_PRESETS],
+      ['MCS', MCS_PRESETS],
+      ['ETC', ETC_PRESETS]
+    ];
+    for (const [category, tags] of presetGroups) {
+      for (const tag of tags) {
+        const exists = data.equipment.some(e => e.category === category && e.tagNo.toLowerCase() === tag.toLowerCase());
+        if (!exists) data.equipment.push({ id:`preset-${category.toLowerCase()}-${tag.toLowerCase().replace(/[^a-z0-9]+/g,'-')}`, category, tagNo:tag, preset:true, accounts:[] });
+      }
     }
     data.equipment.forEach(e => { if (!Array.isArray(e.accounts)) e.accounts = []; });
     try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) { console.warn('Local storage unavailable', e); }
     return data;
+  }
+  function rememberRecentId(username) {
+    const value = String(username || '').trim();
+    if (!value) return;
+    recentIds = [value, ...recentIds.filter(item => item.toLowerCase() !== value.toLowerCase())].slice(0,8);
+    try { localStorage.setItem(RECENT_IDS_KEY, JSON.stringify(recentIds)); } catch {}
   }
   function saveState() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
@@ -816,7 +824,8 @@
     const previous = viewStack.pop();
     if (previous) {
       currentView = previous;
-      document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === previous));
+      document.querySelectorAll('.view').forEach(v => { v.classList.toggle('active', v.id === previous); v.classList.remove('back-transition'); });
+      const targetView = $(previous); if (targetView) { targetView.classList.add('back-transition'); setTimeout(() => targetView.classList.remove('back-transition'), 400); }
       window.scrollTo({top:0, behavior:'instant'});
     } else if (currentView !== 'homeView') {
       currentView = 'homeView';
@@ -824,7 +833,7 @@
     }
   }
   document.querySelectorAll('[data-back]').forEach(btn => btn.addEventListener('click', goBack));
-  $('homeSettings').addEventListener('click', () => navigate('settingsView'));
+  // 앱 정보 화면은 사용하지 않습니다.
 
   function renderCategories() {
     $('categoryGrid').innerHTML = CATEGORIES.map(c =>
@@ -1053,7 +1062,7 @@
           <label class="radio-option"><input type="radio" name="type" value="SHARED" ${existing?.type==='SHARED'?'checked':''}/>공용 계정</label>
         </div>
       </div>
-      <div class="form-field"><label for="accountUser">ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/></div>
+      <div class="form-field"><label for="accountUser">ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/><div class="recent-id-wrap" id="recentIdWrap">${recentIds.length ? '<small>최근 사용한 ID</small><div class="recent-id-list">'+recentIds.map(id => '<button type="button" class="recent-id-chip" data-recent-id="'+escapeHTML(id)+'">'+escapeHTML(id)+'</button>').join('')+'</div>' : '<small>저장된 최근 ID가 없습니다</small>'}</div></div>
       <div class="form-field"><label for="accountPass">PASSWORD</label><input class="form-control" type="text" id="accountPass" name="password" maxlength="200" placeholder="비밀번호" value="${escapeHTML(existing?.password||'')}" autocomplete="off"/></div>
       <div class="form-field"><label for="passwordChanged">비밀번호 변경일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/></div>
       <div class="form-field"><label for="lastLogin">최근 로그인 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/></div>
@@ -1069,10 +1078,12 @@
         if (!isEdit && (e.accounts||[]).length) { showToast('장비당 1개 계정만 등록 가능'); return; }
         if (isEdit) Object.assign(existing, data);
         else e.accounts = [{ id:uid('account'), ...data }];
+        rememberRecentId(data.username);
         saveState(); closeModal(); (afterSave || renderEquipmentDetail)();
         showToast(isEdit ? '수정 완료' : '등록 완료');
       });
     $('cancelAccount').addEventListener('click', closeModal);
+    $('modalForm').querySelectorAll('[data-recent-id]').forEach(btn => btn.addEventListener('click', () => { $('accountUser').value = btn.dataset.recentId; $('accountUser').focus(); }));
   }
   $('addEquipmentBtn').addEventListener('click', () => openEquipmentModal());
 

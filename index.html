@@ -1077,6 +1077,12 @@
           passwordChangedAt: String(form.get('passwordChangedAt')||''),
           lastLoginAt: String(form.get('lastLoginAt')||'')
         };
+        // 비밀번호 자체가 바뀐 경우 변경일을 오늘로 자동 기록한다.
+        // 기존 비밀번호가 그대로면 사용자가 입력한 변경일을 유지한다.
+        const passwordWasChanged = data.password !== String(existing?.password||'');
+        if (data.password && (!isEdit || passwordWasChanged)) {
+          data.passwordChangedAt = localDate();
+        }
         if (!data.username) { showToast('ID를 입력하세요'); return; }
         if (!isEdit && (e.accounts||[]).length) { showToast('장비당 1개 계정만 등록 가능'); return; }
         if (isEdit) Object.assign(existing, data);

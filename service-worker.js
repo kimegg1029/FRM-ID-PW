@@ -1,4 +1,4 @@
-const CACHE_NAME = 'frm-idpw-v1-13';
+const CACHE_NAME = 'frm-idpw-v1-14';
 const APP_FILES = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {

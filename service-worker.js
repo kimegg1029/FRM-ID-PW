@@ -1,5 +1,5 @@
-const CACHE_NAME = 'frm-idpw-v1-5';
-const APP_FILES = ['./', './index.html', './manifest.json', './icon.svg', './mascots-hero.svg'];
+const CACHE_NAME = 'frm-idpw-v1-6';
+const APP_FILES = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(

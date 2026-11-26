@@ -815,6 +815,102 @@
       .page-heading:after { width:118px; opacity:.82; }
     }
 
+  
+    /* Screen-specific SAMBA HEROES scenes: keep the supplied character artwork intact. */
+    .hero {
+      min-height: 292px;
+      height: clamp(270px, 42vh, 340px);
+      display: flex;
+      align-items: flex-start;
+      padding: 30px 20px 18px;
+      background-image:
+        linear-gradient(180deg,rgba(229,245,255,.96) 0%,rgba(229,245,255,.80) 25%,rgba(229,245,255,.04) 57%,rgba(229,245,255,.02) 100%),
+        url("mascot-scene.jpg");
+      background-size: 100% 100%, cover;
+      background-position: center, center 58%;
+    }
+    .hero-copy { max-width:100%; width:100%; text-align:center; }
+    .hero h1 { font-size: clamp(28px, 7vw, 36px); letter-spacing:-.055em; }
+    .hero-sub { font-size:14px; font-weight:700; }
+    .page-heading {
+      min-height:132px;
+      display:flex;
+      align-items:flex-start;
+      padding-top:14px;
+      background-image:linear-gradient(180deg,rgba(230,245,255,.96),rgba(235,247,255,.65));
+    }
+    .page-heading:after {
+      width:190px;
+      height:116px;
+      right:2px;
+      bottom:-8px;
+      background-size:cover;
+      background-position: center 46%;
+      mask-image:linear-gradient(90deg,transparent 0%,#000 18%);
+    }
+    #categoryView .page-heading:after {
+      width:210px;
+      background-position: 68% 45%;
+    }
+    #equipmentView .page-heading:after {
+      width:178px;
+      background-position: 24% 60%;
+      transform:scaleX(-1);
+    }
+    .category-card,.equipment-block,.account-card,.detail-header,.empty-state {
+      backdrop-filter: blur(7px);
+    }
+    .detail-header {
+      position:relative;
+      overflow:hidden;
+      padding-top:112px;
+      background-image:linear-gradient(180deg,rgba(239,249,255,.12) 0 96px,rgba(255,255,255,.94) 96px);
+    }
+    .detail-header:before {
+      content:"";
+      position:absolute;
+      left:0;right:0;top:0;height:104px;
+      background:url("mascot-scene.jpg") center 62% / cover no-repeat;
+      opacity:.96;
+      pointer-events:none;
+    }
+    .detail-header > * { position:relative; z-index:1; }
+    .modal {
+      padding-top:124px;
+      background:#f8fcff;
+    }
+    .modal:before {
+      height:112px;
+      background-image:url("mascot-scene.jpg");
+      background-size:cover;
+      background-position: 78% 48%;
+    }
+    .empty-state {
+      position:relative;
+      overflow:hidden;
+      padding-top:148px;
+      background:
+        linear-gradient(180deg,rgba(245,251,255,.10) 0 132px,rgba(255,255,255,.94) 132px),
+        url("mascot-scene.jpg") center 88% / cover no-repeat;
+    }
+    .empty-state:before {
+      content:"";
+      position:absolute;
+      inset:0 0 auto;
+      height:136px;
+      background:url("mascot-scene.jpg") center 90% / cover no-repeat;
+      opacity:.9;
+      pointer-events:none;
+    }
+    .empty-state > * { position:relative; z-index:1; }
+    .primary-btn { box-shadow:0 5px 14px rgba(50,139,220,.18); }
+    @media (max-width:380px) {
+      .hero { min-height:260px; height:34vh; padding:26px 12px 12px; }
+      .page-heading { min-height:118px; }
+      .page-heading:after { width:148px; }
+      .detail-header { padding-top:104px; }
+    }
+
   </style>
 </head>
 <body>

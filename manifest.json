@@ -9,8 +9,8 @@
   "theme_color": "#eaf5fc",
   "icons": [
     {
-      "src": "mascot-scene.jpg",
-      "sizes": "any",
+      "src": "mascot-icon.jpg",
+      "sizes": "320x320",
       "type": "image/jpeg",
       "purpose": "any"
     }

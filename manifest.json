@@ -5,13 +5,13 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#080b0e",
-  "theme_color": "#080b0e",
+  "background_color": "#eaf5fc",
+  "theme_color": "#eaf5fc",
   "icons": [
     {
-      "src": "icon.svg",
+      "src": "mascot-scene.jpg",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any"
     }
   ]

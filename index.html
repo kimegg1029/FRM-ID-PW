@@ -9,8 +9,8 @@
   <meta name="apple-mobile-web-app-title" content="FRM ID/PW" />
   <meta name="description" content="FRM ID/PW · Equipment account manager" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon.svg" />
-  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="mascot-scene.jpg" />
+  <link rel="icon" type="image/jpeg" href="mascot-scene.jpg" />
   <title>FRM ID/PW</title>
   <style>
     :root {
@@ -114,7 +114,7 @@
       background-color: #0b0f14;
       background-image:
         linear-gradient(90deg, #080b0f 0%, rgba(8, 11, 15, 0.9) 42%, rgba(8, 11, 15, 0.22) 100%),
-        url("hero-bg.jpg");
+        url("mascot-scene.jpg");
       background-size: cover;
       background-position: right center;
     }
@@ -669,6 +669,152 @@
     @media (min-width: 600px) {
       .modal-backdrop { align-items: center; }
     }
+
+    /* SAMBA HEROES theme — original user-provided artwork, lightly styled */
+    :root {
+      color-scheme: light;
+      --bg: #eaf5fc;
+      --panel: rgba(255,255,255,.92);
+      --panel-2: #f3f9ff;
+      --line: rgba(75,133,180,.16);
+      --line-strong: rgba(75,133,180,.28);
+      --text: #173a60;
+      --muted: #66819b;
+      --soft: #456887;
+      --accent: #65b9ed;
+      --accent-strong: #328bdc;
+      --red: #e76d77;
+    }
+    html, body { background: #eaf5fc; color: var(--text); }
+    body {
+      background:
+        radial-gradient(ellipse at 90% 0%, rgba(113,198,241,.22), transparent 42%),
+        linear-gradient(180deg,#e9f6ff 0%,#f6fbff 58%,#eaf4fc 100%);
+    }
+    .app-shell { background: transparent; }
+    .top-brand { color:#6486a5; }
+    .top-brand img { border-color:rgba(76,145,199,.22); }
+    .hero {
+      height: 184px;
+      border: 1px solid rgba(85,153,205,.25);
+      background-color:#d8efff;
+      background-image:
+        linear-gradient(90deg,rgba(231,246,255,.97) 0%,rgba(231,246,255,.9) 38%,rgba(231,246,255,.08) 100%),
+        url("mascot-scene.jpg");
+      background-size:cover;
+      background-position: center 54%;
+      box-shadow:0 8px 24px rgba(63,128,179,.10);
+    }
+    .hero-copy { max-width:65%; }
+    .hero h1 { color:#173d67; }
+    .hero h1 span { color:#328bdc; }
+    .hero-sub { color:#4b7194; }
+    .hero-note { color:#7191ac; }
+    .search-input, .sort-select, .form-control {
+      color:#173a60;
+      background:rgba(255,255,255,.94);
+      border-color:rgba(79,145,193,.24);
+    }
+    .search-input::placeholder { color:#91a9bd; }
+    .search-wrap .search-icon,.clear-search { color:#6e93b1; }
+    .section-title { color:#244d73; }
+    .section-title:before { background:#62b7e9; }
+    .section-meta { color:#7b9bb4; }
+    .category-card,.equipment-block,.account-card,.detail-header,.empty-state {
+      background:rgba(255,255,255,.88);
+      border-color:rgba(81,146,194,.18);
+      box-shadow:0 5px 16px rgba(70,127,169,.06);
+    }
+    .cat-icon { color:#398bd0; background:#eaf6ff; border-color:#d9ecfb; }
+    .cat-name,.equipment-name,.detail-tag,.account-title { color:#1b456f; }
+    .cat-chevron,.equipment-arrow { color:#83a5c1; }
+    .footer-brand { border-top-color:rgba(77,139,185,.16); color:#8aa5ba; }
+    .footer-brand b { color:#6485a0; }
+    .page-heading {
+      position:relative;
+      min-height:94px;
+      overflow:hidden;
+      padding:12px 12px;
+      margin:4px 0 14px;
+      border:1px solid rgba(85,153,205,.22);
+      border-radius:16px;
+      background:linear-gradient(105deg,#e4f4ff 0%,#f5fbff 62%,#d8efff 100%);
+    }
+    .page-heading > div { position:relative; z-index:1; }
+    .page-heading h2 { color:#1c4772; }
+    .page-heading p { color:#6c8ba7; }
+    .page-heading:after {
+      content:"";
+      position:absolute;
+      right:0; bottom:-12px;
+      width:145px; height:104px;
+      opacity:.96;
+      background-image:url("mascot-scene.jpg");
+      background-size:cover;
+      background-position:24% 57%;
+      mask-image:linear-gradient(90deg,transparent 0%,#000 24%);
+      pointer-events:none;
+    }
+    #equipmentView .page-heading:after {
+      background-position:78% 52%;
+      width:128px;
+    }
+    .back-btn,.icon-btn,.tiny-btn {
+      color:#477da7;
+      background:#f5fbff;
+      border-color:rgba(76,143,194,.2);
+    }
+    .soft-btn,.edit-btn {
+      color:#477397;
+      background:#edf6fd;
+      border-color:#d9eaf7;
+    }
+    .primary-btn,.login-btn {
+      color:#fff;
+      background:#398fe0;
+      border-color:#398fe0;
+    }
+    .login-btn { background:#e8f7ef; color:#23865a; border-color:#ccebd9; }
+    .danger-btn { background:#fff1f1; color:#c65e68; border-color:#f3d6d9; }
+    .field-label,.date-box small { color:#7894ac; }
+    .field-value,.date-box b { color:#244b70; }
+    .date-box { background:#f4f9fd; border-color:#e1edf6; }
+    .type-pill { color:#397db3; background:#eaf5fd; }
+    .type-pill.shared { color:#a06d25; background:#fff5df; }
+    .modal-backdrop { background:rgba(28,57,83,.42); }
+    .modal {
+      position:relative;
+      overflow:hidden;
+      padding-top:112px;
+      color:#1b4267;
+      background:#f8fcff;
+      border-color:#cfe4f3;
+    }
+    .modal:before {
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0;
+      height:100px;
+      background-image:
+        linear-gradient(180deg,rgba(221,242,255,.06),rgba(236,247,255,.08)),
+        url("mascot-scene.jpg");
+      background-size:cover;
+      background-position:50% 38%;
+    }
+    .modal-head,.modal form { position:relative; z-index:1; }
+    .modal-head h3 { color:#204b73; }
+    .modal-close { color:#5e86a6; background:#f0f8fe; border-color:#d9eaf6; }
+    .form-control { background:#fff; }
+    .radio-option { color:#456b8d; background:#fff; border-color:#d9eaf6; }
+    .recent-id-chip { color:#3878a8; background:#edf7ff; border-color:#d1e8f8; }
+    .toast { color:#24577e; background:rgba(247,252,255,.97); border-color:#cfe5f5; }
+    .empty-state { color:#7895ad; }
+    .empty-state strong { color:#315b7e; }
+    @media (max-width:380px) {
+      .hero { height:174px; }
+      .page-heading:after { width:118px; opacity:.82; }
+    }
+
   </style>
 </head>
 <body>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'frm-idpw-v1-20';
+const CACHE_NAME = 'frm-idpw-v1-21';
 const APP_FILES = ['./', './index.html', './manifest.json', './icon.svg', './mascot-scene.jpg', './mascot-icon.jpg'];
 
 self.addEventListener('install', event => {
@@ -28,8 +28,6 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Always check the network for app navigation/HTML so an installed iPhone PWA
-  // does not keep showing an old screen. Fall back to the cached app offline.
   if (request.mode === 'navigate' || url.pathname.endsWith('/index.html') || url.pathname.endsWith('/')) {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);
@@ -41,14 +39,12 @@ self.addEventListener('fetch', event => {
           return response;
         }
       } catch (error) {
-        // Offline: serve the latest cached app shell.
       }
       return (await cache.match('./index.html')) || (await cache.match('./')) || Response.error();
     })());
     return;
   }
 
-  // Static assets are served from the current versioned cache first.
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);

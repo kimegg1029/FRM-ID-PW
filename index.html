@@ -1042,6 +1042,27 @@
       }
     }
     data.equipment.forEach(e => { if (!Array.isArray(e.accounts)) e.accounts = []; });
+
+    // Default ETC accounts: populate only empty preset records; preserve user edits.
+    const initialAccounts = {
+      'SC': { username:'operator', password:'1234' },
+      'Ph': { username:'MFG', password:'DP0000' },
+      'DFB': { username:'sbl', password:'sbl1234' },
+      'P1 8F': { username:'', password:'0369' }
+    };
+    for (const [tag, credentials] of Object.entries(initialAccounts)) {
+      const equipment = data.equipment.find(e => e.category === 'ETC' && e.tagNo.toLowerCase() === tag.toLowerCase());
+      if (equipment && equipment.accounts.length === 0) {
+        equipment.accounts = [{
+          id: 'account-preset-' + tag.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
+          type: 'PERSONAL',
+          username: credentials.username,
+          password: credentials.password,
+          passwordChangedAt: '',
+          lastLoginAt: ''
+        }];
+      }
+    }
     try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) { console.warn('Local storage unavailable', e); }
     return data;
   }
@@ -1342,7 +1363,7 @@
           <label class="radio-option"><input type="radio" name="type" value="SHARED" ${existing?.type==='SHARED'?'checked':''}/>공용 계정</label>
         </div>
       </div>
-      <div class="form-field"><label for="accountUser">ID</label><input class="form-control" id="accountUser" name="username" required maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/><div class="recent-id-wrap" id="recentIdWrap">${recentIds.length ? '<small>최근 사용한 ID</small><div class="recent-id-list">'+recentIds.map(id => '<button type="button" class="recent-id-chip" data-recent-id="'+escapeHTML(id)+'">'+escapeHTML(id)+'</button>').join('')+'</div>' : '<small>저장된 최근 ID가 없습니다</small>'}</div></div>
+      <div class="form-field"><label for="accountUser">ID</label><input class="form-control" id="accountUser" name="username" maxlength="100" placeholder="계정 ID" value="${escapeHTML(existing?.username||'')}" autocomplete="off"/><div class="recent-id-wrap" id="recentIdWrap">${recentIds.length ? '<small>최근 사용한 ID</small><div class="recent-id-list">'+recentIds.map(id => '<button type="button" class="recent-id-chip" data-recent-id="'+escapeHTML(id)+'">'+escapeHTML(id)+'</button>').join('')+'</div>' : '<small>저장된 최근 ID가 없습니다</small>'}</div></div>
       <div class="form-field"><label for="accountPass">PASSWORD</label><input class="form-control" type="text" id="accountPass" name="password" maxlength="200" placeholder="비밀번호" value="${escapeHTML(existing?.password||'')}" autocomplete="off"/></div>
       <div class="form-field"><label for="passwordChanged">비밀번호 변경일 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="passwordChanged" name="passwordChangedAt" value="${escapeHTML(existing?.passwordChangedAt||'')}"/></div>
       <div class="form-field"><label for="lastLogin">최근 로그인 <span class="optional-label">선택</span></label><input class="form-control" type="date" id="lastLogin" name="lastLoginAt" value="${escapeHTML(existing?.lastLoginAt||'')}"/></div>
@@ -1360,7 +1381,7 @@
         if (data.password && (!isEdit || passwordWasChanged)) {
           data.passwordChangedAt = localDate();
         }
-        if (!data.username) { showToast('ID를 입력하세요'); return; }
+
         if (!isEdit && (e.accounts||[]).length) { showToast('장비당 1개 계정만 등록 가능'); return; }
         if (isEdit) Object.assign(existing, data);
         else e.accounts = [{ id:uid('account'), ...data }];
